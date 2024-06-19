@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.svg">
+    <title>
+        Ордер <%= order[0].order_id %> | WaveSwap
+    </title>
+</head>
+
+<body>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+            background: #ececec;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .auth-button {
+            background: #0d6efd;
+            border-radius: 8px;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            padding-top: 10px;
+            padding-left: 80px;
+            padding-right: 80px;
+            padding-bottom: 12px;
+            transition: 0s;
+        }
+
+        .auth-button:hover {
+            background: #2b80ff;
+            color: #fff;
+        }
+
+        .telegram {
+            position: fixed;
+            right: 20px;
+            bottom: 30px;
+            z-index: 90;
+        }
+
+        .telegram-tooltip {
+            position: relative;
+            background: #2b80ff;
+            box-shadow: -2px 2px 7px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 500;
+            padding-top: 8px;
+            padding-left: 12px;
+            padding-right: 12px;
+            padding-bottom: 8px;
+            animation-name: disappearance;
+            animation-duration: 0.4s;
+            animation-delay: 5s;
+            animation-fill-mode: forwards;
+        }
+
+        .telegram-tooltip-arrow {
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 8px solid #2b80ff;
+            margin-right: 10px;
+            animation-name: disappearance;
+            animation-duration: 0.6s;
+            animation-delay: 5s;
+            animation-fill-mode: forwards;
+        }
+
+        .telegram-button {
+            width: 56px;
+            height: 56px;
+            position: relative;
+            background: #fff;
+            box-shadow: 0 2px 7px 2px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            transition: 0.2s;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .telegram-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 2px 5px 3px rgba(25, 127, 210, 0.3);
+        }
+
+        .telegram-button i {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 32px;
+            color: #2AABEE;
+        }
+
+        .fog {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(0.5px);
+            z-index: 998;
+        }
+
+        nav {
+            position: relative;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            z-index: 80;
+        }
+
+        nav .container {
+            padding-top: 13px;
+            padding-bottom: 15px;
+        }
+
+        .navbar-brand {
+            font-size: 23px;
+            font-weight: 700;
+            margin-right: 0;
+        }
+
+        .navbar-link {
+            color: #222222;
+            text-decoration: none;
+        }
+
+        .navbar-link:hover {
+            text-decoration: underline;
+        }
+
+        .card {
+            position: relative;
+            background: #2b80ff;
+            box-shadow: 0 3px 15px rgba(25, 56, 210, 0.4);
+            border: none;
+            border-radius: 11px;
+            /*    padding-top: 30px;
+            padding-left: 44px;
+            padding-right: 44px;
+            padding-bottom: 46px; */
+            margin-top: 60px;
+            margin-bottom: 60px;
+            overflow: hidden;
+        }
+
+        .card-color {
+            height: 830px;
+            width: 100%;
+            position: absolute;
+            top: 0%;
+            left: -360px;
+            transform: rotate(110deg);
+            background: #2b80ff;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            z-index: 0;
+        }
+
+        .card-title {
+            position: relative;
+            color: #fff;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .card-status {
+            padding-top: 30px;
+            padding-left: 44px;
+            padding-right: 44px;
+            padding-bottom: 46px;
+        }
+
+        input::before {
+            content: "Файл (чек)";
+            width: 90px;
+            position: absolute;
+            font-weight: 500;
+            z-index: 2;
+            display: block;
+            background-color: #f8f9fa;
+            color: #383838;
+        }
+
+        .fa-copy:hover {
+            color: #b8b8b8 !important;
+        }
+
+        footer {
+            background: #383838;
+            background-image: url('/icons/wave.svg');
+            background-size: cover;
+            background-position: 50% 30%;
+            padding-top: 50px;
+            padding-bottom: 40px;
+            border-top: 2px solid rgb(119, 119, 119);
+        }
+
+        .footer-title {
+            position: relative;
+            font-size: 23px;
+            font-weight: 600;
+            color: #fff;
+            margin-top: 1.5px;
+            margin-left: 10px;
+            margin-bottom: 0;
+        }
+
+        .footer-copyright {
+            color: rgb(122, 122, 122);
+            font-size: 13px;
+            margin-top: 20px;
+            margin-bottom: 0;
+        }
+
+        .footer-link {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .footer-link a {
+            color: #e7e7e7;
+            text-decoration: none;
+        }
+
+        .footer-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 767.98px) {
+            .card {
+                margin-top: 40px;
+                margin-bottom: 40px;
+            }
+
+            .card-title {
+                text-align: center;
+            }
+
+            .card-status {
+                padding-top: 20px;
+                padding-left: 10px;
+                padding-right: 10px;
+                padding-bottom: 10px;
+            }
+        }
+
+        @keyframes appearance {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes disappearance {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        .base-timer {
+            position: relative;
+            width: 46%;
+            height: 46%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .base-timer__svg {
+            transform: scaleX(-1);
+        }
+
+        .base-timer__circle {
+            fill: none;
+            stroke: none;
+        }
+
+        .base-timer__path-elapsed {
+            stroke-width: 6.4px;
+            stroke: #fff;
+        }
+
+        .base-timer__path-remaining {
+            stroke-width: 7px;
+            stroke-linecap: round;
+            transform: rotate(90deg);
+            transform-origin: center;
+            transition: 1s linear all;
+            fill-rule: nonzero;
+            stroke: currentColor;
+        }
+
+        .base-timer__path-remaining.green {
+            color: rgb(106, 255, 136);
+        }
+
+        .base-timer__path-remaining.orange {
+            color: #F4B400;
+        }
+
+        .base-timer__path-remaining.red {
+            color: rgb(244, 57, 57);
+        }
+
+        .base-timer__label {
+            position: absolute;
+            width: 100%;
+            height: 98.5%;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: 700;
+            color: #fff;
+        }
+    </style>
+
+    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+        tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" style="width: 380px; margin-top: -4%;">
+            <div class="modal-content">
+                <div class="modal-header"
+                    style="position: relative; padding-top: 25px; padding-left: 35px; padding-right: 20px; padding-bottom: 25px;">
+                    <div
+                        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #383838; font-size: 19px; font-weight: 600;">
+                        Авторизация</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="padding-left: 35px; padding-right: 35px;">
+                    <div
+                        style="width: 100%; height: 2px; position: relative; background: #dddddd; margin-top: 5px; margin-bottom: 20px;">
+                    </div>
+                    <div class="input-group flex-nowrap mt-3 mb-4">
+                        <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
+                        <input type="text" class="form-control" placeholder="E-mail" aria-label="email"
+                            aria-describedby="addon-wrapping">
+                    </div>
+                    <div class="input-group flex-nowrap" style="margin-bottom: 60px;">
+                        <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                        <input type="password" class="form-control" placeholder="Пароль" aria-label="password"
+                            aria-describedby="addon-wrapping">
+                    </div>
+                    <div class="d-flex justify-content-center mb-3">
+                        <button class="auth-button">Войти</button>
+                    </div>
+                    <div
+                        style="width: 100%; height: 2px; position: relative; background: #dddddd; margin-top: 20px; margin-bottom: 5px;">
+                    </div>
+                </div>
+                <div class="modal-footer"
+                    style="padding-top: 25px; padding-left: 32px; padding-right: 32px; padding-bottom: 25px;">
+                    <div class="d-flex justify-content-between" style="width: 100%;">
+                        <div class="d-inline-flex"
+                            style="font-size: 13px; font-weight: 500; color: #959595; text-transform: uppercase; margin-bottom: 0;">
+                            Забыли пароль?</div>
+                        <div class="d-inline-flex"
+                            style="font-size: 13px; font-weight: 500; color: #84b5ff; text-transform: uppercase; margin-bottom: 0; cursor: pointer; user-select: none;"
+                            data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Создать
+                            аккаунт</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
+        tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" style="margin-top: -4%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Регистрация</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Hide this modal and show the first with the button below.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to
+                        first</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end telegram">
+        <div class="align-self-center telegram-tooltip">Нужна помощь?</div>
+        <div class="align-self-center telegram-tooltip-arrow"></div>
+        <div class="telegram-button" onclick="window.open('', '_blank');">
+            <i class="fa-brands fa-telegram"></i>
+        </div>
+    </div>
+
+    <div id="fog" class="fog d-none"
+        onclick="$('#fog').addClass('d-none'); $('#change_currency1').addClass('d-none'); $('#change_currency2').addClass('d-none'); $('#change_mark').addClass('d-none');">
+    </div>
+
+    <nav class="navbar bg-body-tertiary">
+        <div class="container">
+            <div style="width: 25%;">
+                <a class="navbar-brand" href="/">
+                    <div class="d-flex flex-row">
+                        <div class="d-none d-md-block"
+                            style="width: 36px; height: 36px; position: relative; background: #0d6efd; border-radius: 6px;">
+                            <!--<i style="position: absolute; top: 48%; left: 50%; transform: translate(-50%, -50%); font-size: 20px; color: #fff;"
+                                class="fa-solid fa-building-columns"></i>-->
+                            <img src="/icons/logo.svg"
+                                style="width: 22px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                        </div>
+                        <p class="d-inline-flex"
+                            style="font-size: 23px; margin-top: 1.5px; margin-left: 10px; margin-bottom: 0;">WaveSwap
+                        </p>
+                    </div>
+                </a>
+            </div>
+            <div class="row g-0 d-none d-lg-flex"
+                style="width: 50%; font-size: 16px; font-weight: 500; text-align: center;">
+                <div class="col-3">
+                    <div><a class="navbar-link" href="/news">Новости</a></div>
+                </div>
+                <div class="col-3">
+                    <div><a class="navbar-link" href="">Партнерам</a></div>
+                </div>
+                <div class="col-3">
+                    <div><a class="navbar-link" href="">Контакты</a></div>
+                </div>
+                <div class="col-3">
+                    <div><a class="navbar-link" href="">Поддержка</a></div>
+                </div>
+            </div>
+            <div class="d-flex flex-row-reverse" style="width: 25%;">
+                <button class="btn btn-primary d-block d-lg-none" style="margin-left: 10px;"><span
+                        style="font-weight: 500;"><i class="fa-solid fa-bars"></i>
+                </button>
+                <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal"><span
+                        style="font-weight: 600;"><span class="d-none d-lg-inline">Авторизация&nbsp;&nbsp;</span><i
+                            class="fa-solid fa-circle-user"></i>
+                </button>
+            </div>
+
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <div class="row g-0">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-8">
+                    <div class="card-status">
+                        <p class="card-title">
+                            Ордер — <%= order[0].order_id %>
+                        </p>
+
+                        <% if (order[0].status==1) { %>
+                            <div
+                                style="width: 100%; height: 460px; display: flex; background: #fff; border-radius: 8px;">
+                                <div class="align-self-center" style="width: 100%;">
+                                    <div
+                                        style="width: 100%; text-align: center; margin-left: auto; margin-right: auto;">
+                                        <div class="d-flex justify-content-center">
+                                            <div
+                                                style="width: 50px; height: 50px; position: relative; background: #d0d0d0; border-radius: 8px; margin-top: 10px;">
+                                                <i class="fa-solid fa-table-list"
+                                                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 24px; color: #fff;"></i>
+                                            </div>
+                                            <div
+                                                style="width: 50px; height: 70px; position: relative; background: #fff; border-radius: 8px; margin-bottom: 30px;">
+                                                <div
+                                                    style="width: 20px; height: 4px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #d0d0d0;">
+                                                </div>
+                                            </div>
+                                            <div
+                                                style="width: 70px; height: 70px; position: relative; background: #2b80ff; border-radius: 8px; margin-bottom: 30px;">
+                                                <i class="fa-solid fa-user-tie"
+                                                    style="position: absolute; top: 48%; left: 50%; transform: translate(-50%, -50%); font-size: 32px; color: #fff;"></i>
+                                            </div>
+                                            <div
+                                                style="width: 50px; height: 70px; position: relative; background: #fff; border-radius: 8px; margin-bottom: 30px;">
+                                                <div
+                                                    style="width: 20px; height: 4px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #d0d0d0;">
+                                                </div>
+                                            </div>
+                                            <div
+                                                style="width: 50px; height: 50px; position: relative; background: #d0d0d0; border-radius: 8px; margin-top: 10px;">
+                                                <i class="fa-solid fa-file-invoice-dollar"
+                                                    style="position: absolute; top: 49%; left: 50%; transform: translate(-50%, -50%); font-size: 24px; color: #fff;"></i>
+                                            </div>
+                                        </div>
+
+                                        <p
+                                            style="font-size: 22px; font-weight: 600; color: #383838; margin-bottom: 10px;">
+                                            Ожидание менеджера</p>
+                                        <p style="font-size: 15px; color: #9d9d9d;">Реализация фиатных транзакций
+                                            происходит
+                                            при посредничестве<br> оператора, примерное время ожадания - 5 минут</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } else if (order[0].status==2) { %>
+                                <div
+                                    style="width: 100%; height: 460px; display: flex; background: #fff; border-radius: 8px;">
+                                    <div class="align-self-center" style="width: 100%;">
+                                        <div
+                                            style="width: 100%; text-align: center; margin-left: auto; margin-right: auto;">
+                                            <div class="d-flex justify-content-center">
+                                                <div
+                                                    style="width: 50px; height: 50px; position: relative; background: #d0d0d0; border-radius: 8px; margin-top: 10px;">
+                                                    <i class="fa-solid fa-user-tie"
+                                                        style="position: absolute; top: 48%; left: 50%; transform: translate(-50%, -50%); font-size: 24px; color: #fff;"></i>
+                                                </div>
+                                                <div
+                                                    style="width: 50px; height: 70px; position: relative; background: #fff; border-radius: 8px; margin-bottom: 30px;">
+                                                    <div
+                                                        style="width: 20px; height: 4px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #d0d0d0;">
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    style="width: 70px; height: 70px; position: relative; background: #2b80ff; border-radius: 8px; margin-bottom: 30px;">
+                                                    <i class="fa-solid fa-file-invoice-dollar"
+                                                        style="position: absolute; top: 49%; left: 50%; transform: translate(-50%, -50%); font-size: 32px; color: #fff;"></i>
+                                                </div>
+                                                <div
+                                                    style="width: 50px; height: 70px; position: relative; background: #fff; border-radius: 8px; margin-bottom: 30px;">
+                                                    <div
+                                                        style="width: 20px; height: 4px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #d0d0d0;">
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    style="width: 50px; height: 50px; position: relative; background: #d0d0d0; border-radius: 8px; margin-top: 10px;">
+                                                    <i class="fa-solid fa-coins"
+                                                        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 24px; color: #fff;"></i>
+                                                </div>
+                                            </div>
+
+                                            <p
+                                                style="font-size: 22px; font-weight: 600; color: #383838; margin-bottom: 10px;">
+                                                Ожидание реквизитов</p>
+                                            <p style="font-size: 15px; color: #9d9d9d;">Ваша заявка была успешно
+                                                подтверждена оператором. В течении нескольких<br>
+                                                минут на этой странице появятся реквизиты для реализации вашей
+                                                транцзакции.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } else if (order[0].status==3) { %>
+                                    <div style="width: 100%; height: 460px; background: #fff; border-radius: 8px;">
+                                        <div class="d-flex flex-column" style="padding: 15px;">
+                                            <div
+                                                style="width: 100%; height: 305px; background: #fff; box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); border-radius: 6px; padding-top: 18px; padding-left: 20px; padding-right: 20px; padding-bottom: 20px; margin-bottom: 15px;">
+                                                <p style="color: #383838; font-size: 20px; font-weight: 600;">Платежные
+                                                    реквизиты</p>
+                                                <table class="table">
+                                                    <tbody>
+                                                        <% requisites=JSON.parse(order[0].requisites); %>
+                                                            <% if (requisites[0].bank) { %>
+                                                                <tr>
+                                                                    <td style="color: #787878;">Банк:</td>
+                                                                    <td style="color: #787878;">
+                                                                        <%= requisites[0].bank %>
+                                                                    </td>
+                                                                </tr>
+                                                                <% } if (requisites[0].card_number) { %>
+                                                                    <tr>
+                                                                        <td style="color: #787878;">Номер карты:</td>
+                                                                        <td style="color: #787878;">
+                                                                            <span id="wallet">
+                                                                                <%= requisites[0].card_number %>
+                                                                            </span>
+                                                                            <i onclick="copyWallet();"
+                                                                                style="color: #2b80ff; font-size: 16px; margin-left: 10px; cursor: pointer;"
+                                                                                class="fa-solid fa-copy"></i>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <% } if (requisites[0].person) { %>
+                                                                        <tr>
+                                                                            <td style="color: #787878;">ФИО:</td>
+                                                                            <td style="color: #787878;">
+                                                                                <%= requisites[0].person %>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <% } if (requisites[0].cryptowallet) { %>
+                                                                            <tr>
+                                                                                <td style="color: #787878;">
+                                                                                    Валюта:</td>
+                                                                                <td style="color: #787878;">
+                                                                                    <%= requisites[0].currency %>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <% } if (requisites[0].cryptowallet) { %>
+                                                                                <tr>
+                                                                                    <td style="color: #787878;">
+                                                                                        Криптокошелек:</td>
+                                                                                    <td style="color: #787878;"><span
+                                                                                            id="wallet">
+                                                                                            <%= requisites[0].cryptowallet
+                                                                                                %>
+                                                                                        </span>
+                                                                                        <i onclick="copyWallet();"
+                                                                                            style="color: #2b80ff; font-size: 16px; margin-left: 10px; cursor: pointer;"
+                                                                                            class="fa-solid fa-copy"></i>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <% } if (requisites[0].network) { %>
+                                                                                    <tr>
+                                                                                        <td style="color: #787878;">
+                                                                                            Сеть:</td>
+                                                                                        <td style="color: #787878;">
+                                                                                            <%= requisites[0].network %>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <% } if (requisites[0].value) { %>
+                                                                                        <tr>
+                                                                                            <td style="color: #787878;">
+                                                                                                Сумма:
+                                                                                            </td>
+                                                                                            <td style="color: #787878;">
+                                                                                                <%= requisites[0].value
+                                                                                                    %>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <% } %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div class="d-flex justify-content-lg-between"
+                                                style="width: 100%; height: 110px; background: #fff; box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); border-radius: 6px; padding-top: 20px; padding-left: 20px; padding-right: 20px; padding-bottom: 20px;">
+                                                <div class="d-flex">
+                                                    <div
+                                                        style="width: 70px; height: 70px; position: relative; background: #2b80ff; border-radius: 8px; margin-right: 15px;">
+                                                        <i class="fa-solid fa-coins"
+                                                            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 32px; color: #fff;"></i>
+                                                    </div>
+                                                    <div>
+                                                        <p
+                                                            style="font-size: 20px; font-weight: 600; color: #383838; margin-top: -2px; margin-bottom: 3px;">
+                                                            Ожидание оплаты</p>
+                                                        <p
+                                                            style="font-size: 14px; color: #9d9d9d; line-height: 1.3; margin-bottom: 0;">
+                                                            Совершите оплату,
+                                                            прикрепите ваш чек<br> и после нажмите кнопку "Подтвердить".
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex align-items-center">
+                                                    <div class="d-flex flex-lg-column">
+                                                        <form method="post" action="" enctype="multipart/form-data">
+                                                            <div style="margin-bottom: 5px;">
+                                                                <input style="width: 240px;" class="form-control"
+                                                                    name="invoice" type="file"
+                                                                    accept=".jpg, .jpeg, .png, .pdf" required>
+                                                            </div>
+                                                            <div class="d-flex justify-content-end">
+                                                                <button class="btn btn-sm btn-primary"
+                                                                    style="width: 120px; font-weight: 500; margin-top: 5px;"
+                                                                    type="submit">Подтвердить</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% } else if (order[0].status==4) { %>
+                                        <div
+                                            style="width: 100%; height: 460px; display: flex; background: #fff; border-radius: 8px;">
+                                            <div class="align-self-center" style="width: 100%;">
+                                                <div
+                                                    style="width: 100%; text-align: center; margin-left: auto; margin-right: auto;">
+                                                    <div class="d-flex justify-content-center">
+                                                        <div
+                                                            style="width: 50px; height: 50px; position: relative; background: #d0d0d0; border-radius: 8px; margin-top: 10px;">
+                                                            <i class="fa-solid fa-coins"
+                                                                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 24px; color: #fff;"></i>
+                                                        </div>
+                                                        <div
+                                                            style="width: 50px; height: 70px; position: relative; background: #fff; border-radius: 8px; margin-bottom: 30px;">
+                                                            <div
+                                                                style="width: 20px; height: 4px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #d0d0d0;">
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            style="width: 70px; height: 70px; position: relative; background: #2b80ff; border-radius: 8px; margin-bottom: 30px;">
+                                                            <i class="fa-solid fa-hand-holding-dollar"
+                                                                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 32px; color: #fff;"></i>
+                                                        </div>
+                                                        <div
+                                                            style="width: 50px; height: 70px; position: relative; background: #fff; border-radius: 8px; margin-bottom: 30px;">
+                                                            <div
+                                                                style="width: 20px; height: 4px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #d0d0d0;">
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            style="width: 50px; height: 50px; position: relative; background: #d0d0d0; border-radius: 8px; margin-top: 10px;">
+                                                            <i class="fa-solid fa-circle-check"
+                                                                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 24px; color: #fff;"></i>
+                                                        </div>
+                                                    </div>
+
+                                                    <p
+                                                        style="font-size: 22px; font-weight: 600; color: #383838; margin-bottom: 10px;">
+                                                        Осуществление платежа</p>
+                                                    <p style="font-size: 15px; color: #9d9d9d;">В течении 15-30 минут
+                                                        ваш платеж будет подтвержден менеджером, после чего<br> будет
+                                                        совершен перевод по реквизитам получателя согласно договору
+                                                        оферты.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% } else if (order[0].status==5) { %>
+                                            <div
+                                                style="width: 100%; height: 460px; display: flex; background: #fff; border-radius: 8px;">
+                                                <div class="align-self-center" style="width: 100%;">
+                                                    <div
+                                                        style="width: 100%; text-align: center; margin-left: auto; margin-right: auto;">
+                                                        <div class="d-flex justify-content-center">
+                                                            <div
+                                                                style="width: 70px; height: 70px; position: relative; background: #2b80ff; border-radius: 8px; margin-bottom: 30px;">
+                                                                <i class="fa-solid fa-circle-check"
+                                                                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 32px; color: #fff;"></i>
+                                                            </div>
+                                                        </div>
+
+                                                        <p
+                                                            style="font-size: 22px; font-weight: 600; color: #383838; margin-bottom: 10px;">
+                                                            Успешный обмен</p>
+                                                        <p style="font-size: 15px; color: #9d9d9d;">Денежные средства
+                                                            были успешно отправлены, через некоторое<br> время они
+                                                            поступят на ваш счет. Спасибо, что выбрали нас!</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-4">
+                    <div
+                        style="height: 100%; background: #0d6efd; padding-top: 84px; padding-left: 44px; padding-right: 44px;">
+                        <div id="app">20</div>
+                        <div class="d-flex justify-content-between" style="margin-top: 30px; margin-bottom: 20px;">
+                            <% data=JSON.parse(order[0].data); %>
+                                <p style="color: #fff; font-size: 20px; font-weight: 600; margin-bottom: 0;">
+                                    <%= data[0].currency1_value %> <span style="color: #a6a6a6; font-weight: 500;">
+                                            <%= data[0].currency1_mark %>
+                                        </span>
+                                </p>
+                                <p style="color: #fff; font-size: 20px; font-weight: 600; margin-bottom: 0;">➜</p>
+                                <p style="color: #fff; font-size: 20px; font-weight: 600; margin-bottom: 0;">
+                                    <%= data[0].currency2_value %> <span style="color: #a6a6a6; font-weight: 500;">
+                                            <%= data[0].currency2_mark %>
+                                        </span>
+                                </p>
+                        </div>
+                        <% if (data[0].currency2_cryptowallet) { %>
+                            <div>
+                                <p style="font-size: 16px; color: #a6a6a6; margin-bottom: 0;">Отправка:</p>
+                                <p style="color: #fff; font-size: 20px; font-weight: 600; margin-bottom: 0;">
+                                    <%= data[0].currency1_person %>
+                                </p>
+                                <p style="color: #fff; font-size: 20px; font-weight: 600; margin-bottom: 0;">
+                                    <%= data[0].currency1_cardnumber %>
+                                </p>
+                                <p
+                                    style="font-size: 16px; color: #a6a6a6; text-transform: uppercase; margin-bottom: 0;">
+                                    <%= order[0].currency1_id %> [<%= data[0].currency1_mark %>]
+                                </p>
+                            </div>
+                            <% } else { %>
+                                <div>
+                                    <p style="font-size: 16px; color: #a6a6a6; margin-bottom: 0;">Отправка:</p>
+                                    <p style="color: #fff; font-size: 20px; font-weight: 600; margin-bottom: 0;">
+                                        Независимый адрес
+                                    </p>
+                                    <p
+                                        style="font-size: 16px; color: #a6a6a6; text-transform: uppercase; margin-bottom: 0;">
+                                        <%= order[0].currency1_id %> [<%= data[0].currency1_mark %>]
+                                    </p>
+                                </div>
+                                <% } %>
+                                    <div
+                                        style="width: 100%; height: 2px; background: #383838; border-radius: 40px; margin-top: 20px; margin-bottom: 20px;">
+                                    </div>
+                                    <% if (data[0].currency2_cryptowallet) { %>
+                                        <div style="width: 100%;">
+                                            <p style="font-size: 16px; color: #a6a6a6; margin-bottom: 0;">Получение:</p>
+                                            <p
+                                                style="color: #fff; font-size: 20px; font-weight: 600; white-space: nowrap; text-overflow: ellipsis; margin-bottom: 0; overflow: hidden;">
+                                                <%= data[0].currency2_cryptowallet %>
+                                            </p>
+                                            <p
+                                                style="font-size: 16px; color: #a6a6a6; text-transform: uppercase; margin-bottom: 30px;">
+                                                <%= order[0].currency2_id %> [<%= data[0].currency2_mark %>]
+                                            </p>
+                                        </div>
+                                        <% } else { %>
+                                            <div>
+                                                <p style="font-size: 16px; color: #a6a6a6; margin-bottom: 0;">Получение:
+                                                </p>
+                                                <p
+                                                    style="color: #fff; font-size: 20px; font-weight: 600; margin-bottom: 0;">
+                                                    <%= data[0].currency2_person %>
+                                                </p>
+                                                <p
+                                                    style="color: #fff; font-size: 20px; font-weight: 600; margin-bottom: 0;">
+                                                    <%= data[0].currency2_cardnumber %>
+                                                </p>
+                                                <p
+                                                    style="font-size: 16px; color: #a6a6a6; text-transform: uppercase; margin-bottom: 30px;">
+                                                    <%= order[0].currency2_id %> [<%= data[0].currency2_mark %>]
+                                                </p>
+                                            </div>
+                                            <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="d-flex justify-content-between">
+                    <div style="width: 65%;">
+                        <div class="d-flex justify-content-start">
+                            <div
+                                style="width: 36px; height: 36px; position: relative; background: #0d6efd; border-radius: 6px;">
+                                <img src="/icons/logo.svg"
+                                    style="width: 22px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                            </div>
+                            <p class="align-self-center footer-title">WaveSwap</p>
+
+                        </div>
+                        <p class="footer-copyright">Сервис качественных и быстрых обменов<br>
+                            Все права защищены. Copyright © waveswap.net 2021-2023</p>
+                    </div>
+
+                    <div class="d-flex flex-column">
+                        <p class="d-inline-flex footer-link" style="margin-top: 10px;"><a href="/news">Новости</a></p>
+                        <p class="d-inline-flex footer-link"><a href="/partners">Партнерам</a></p>
+                        <p class="d-inline-flex footer-link"><a href="">Авторизация</a></p>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <p class="d-inline-flex footer-link" style="margin-top: 10px;"><a href="/rules">Правила
+                                обмена</a></p>
+                        <p class="d-inline-flex footer-link"><a href="/help">Поддержка</a></p>
+                        <p class="d-inline-flex footer-link"><a href="/contacts">Контакты</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        function checkStatus() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", `/order/<%= order[0].order_id %>?status=<%= order[0].status %>`, true);
+
+            xhr.onload = function () {
+                if (xhr.responseText == "NEW") {
+                    return window.location = `/order/<%= order[0].order_id %>`;
+                }
+            };
+
+            xhr.onerror = function () {
+                console.error('Сетевая ошибка при выполнении запроса');
+            };
+
+            xhr.send();
+        }
+
+        setInterval(checkStatus, 3000);
+
+        function copyWallet() {
+            var spanElement = document.getElementById("wallet");
+            var tempInput = document.createElement("input");
+            tempInput.value = spanElement.textContent.trim();
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+        }
+
+        let dbDate = new Date("<%= order[0].date %>");
+        dbDate.setMinutes(dbDate.getMinutes() + 30);
+        let currentDate = new Date();
+
+        const FULL_DASH_ARRAY = 283;
+        const WARNING_THRESHOLD = 60 * 15;
+        const ALERT_THRESHOLD = 60 * 5;
+
+        const COLOR_CODES = {
+            info: {
+                color: "green"
+            },
+            warning: {
+                color: "orange",
+                threshold: WARNING_THRESHOLD
+            },
+            alert: {
+                color: "red",
+                threshold: ALERT_THRESHOLD
+            }
+        };
+
+        let TIME_LIMIT = Math.round((dbDate - currentDate) / 1000);
+        if (TIME_LIMIT < 0) TIME_LIMIT = 1;
+
+        let timePassed = 0;
+        let timeLeft = TIME_LIMIT;
+        let timerInterval = null;
+        let remainingPathColor = COLOR_CODES.info.color;
+
+        document.getElementById("app").innerHTML = `
+    <div class="base-timer">
+      <svg class="base-timer__svg" viewBox="0 0 100 100">
+        <g class="base-timer__circle">
+          <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+          <path
+            id="base-timer-path-remaining"
+            stroke-dasharray="283"
+            class="base-timer__path-remaining ${remainingPathColor}"
+            d="
+              M 50, 50
+              m -45, 0
+              a 45,45 0 1,0 90,0
+              a 45,45 0 1,0 -90,0
+              ">
+          </path>
+        </g>
+      </svg>
+      <% if (order[0].status==4 || order[0].status==5) { %>
+        <span id="base-timer-label" class="base-timer__label">Ꝏ</span>
+        <% } else { %>
+          <span id="base-timer-label" class="base-timer__label">${formatTime(timeLeft)}</span>
+            <% } %>
+        </div>
+        `;
+
+        startTimer();
+
+        function onTimesUp() {
+            const status = '<%= order[0].status %>';
+            if (status == 4 || status == 5) {
+                clearInterval(timerInterval);
+                document.getElementById("base-timer-label").innerHTML = "Ꝏ";
+            } else {
+                clearInterval(timerInterval);
+            }
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timePassed = timePassed += 1;
+                timeLeft = TIME_LIMIT - timePassed;
+                document.getElementById("base-timer-label").innerHTML = formatTime(
+                    timeLeft
+                );
+                setCircleDasharray();
+                setRemainingPathColor(timeLeft);
+
+                if (timeLeft === 0) {
+                    onTimesUp();
+                }
+            }, 1000);
+        }
+
+        function formatTime(time) {
+            const minutes = Math.floor(time / 60);
+            let seconds = time % 60;
+
+            if (seconds < 10) {
+                seconds = `0${seconds}`;
+            }
+
+            return `${minutes}:${seconds}`;
+        }
+
+        function setRemainingPathColor(timeLeft) {
+            const { alert, warning, info } = COLOR_CODES;
+            if (timeLeft <= alert.threshold) {
+                document
+                    .getElementById("base-timer-path-remaining")
+                    .classList.remove(warning.color);
+                document
+                    .getElementById("base-timer-path-remaining")
+                    .classList.add(alert.color);
+            } else if (timeLeft <= warning.threshold) {
+                document
+                    .getElementById("base-timer-path-remaining")
+                    .classList.remove(info.color);
+                document
+                    .getElementById("base-timer-path-remaining")
+                    .classList.add(warning.color);
+            }
+        }
+
+        function calculateTimeFraction() {
+            const rawTimeFraction = timeLeft / TIME_LIMIT;
+            return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
+        }
+
+        function setCircleDasharray() {
+            const circleDasharray = `${(
+                calculateTimeFraction() * FULL_DASH_ARRAY
+            ).toFixed(0)} 283`;
+            document
+                .getElementById("base-timer-path-remaining")
+                .setAttribute("stroke-dasharray", circleDasharray);
+        }
+    </script>
+</body>
+
+</html>

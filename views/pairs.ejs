@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.svg">
+    <title>
+        Валютные пары | WaveSwap
+    </title>
+</head>
+
+<body>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+            background: #ececec;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .fog {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(0.5px);
+            z-index: 998;
+        }
+
+        nav {
+            position: relative;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            z-index: 80;
+        }
+
+        nav .container {
+            padding-top: 13px;
+            padding-bottom: 15px;
+        }
+
+        .navbar-brand {
+            font-size: 23px;
+            font-weight: 700;
+            margin-right: 0;
+        }
+
+        .navbar-link {
+            color: #222222;
+            text-decoration: none;
+        }
+
+        .navbar-link:hover {
+            text-decoration: underline;
+        }
+
+        .id-link {
+            color: #0d6efd;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .id-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background: #383838;
+            background-image: url('/icons/wave.svg');
+            background-size: cover;
+            background-position: 50% 30%;
+            padding-top: 50px;
+            padding-bottom: 40px;
+            border-top: 2px solid rgb(119, 119, 119);
+        }
+
+        .footer-title {
+            position: relative;
+            font-size: 23px;
+            font-weight: 600;
+            color: #fff;
+            margin-top: 1.5px;
+            margin-left: 10px;
+            margin-bottom: 0;
+        }
+
+        .footer-copyright {
+            color: rgb(122, 122, 122);
+            font-size: 13px;
+            margin-top: 20px;
+            margin-bottom: 0;
+        }
+
+        .footer-link {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .footer-link a {
+            color: #e7e7e7;
+            text-decoration: none;
+        }
+
+        .footer-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    <div id="fog" class="fog d-none">
+    </div>
+
+    <nav class="navbar bg-body-tertiary">
+        <div class="container">
+            <div style="width: 25%;">
+                <a class="navbar-brand" href="/">
+                    <div class="d-flex flex-row">
+                        <div class="d-none d-md-block"
+                            style="width: 36px; height: 36px; position: relative; background: #0d6efd; border-radius: 6px;">
+                            <!--<i style="position: absolute; top: 48%; left: 50%; transform: translate(-50%, -50%); font-size: 20px; color: #fff;"
+                                class="fa-solid fa-building-columns"></i>-->
+                            <img src="/icons/logo.svg"
+                                style="width: 22px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                        </div>
+                        <p class="d-inline-flex"
+                            style="font-size: 23px; margin-top: 1.5px; margin-left: 10px; margin-bottom: 0;">WaveSwap
+                        </p>
+                    </div>
+                </a>
+            </div>
+            <div class="row g-0 d-none d-lg-flex"
+                style="width: 50%; font-size: 16px; font-weight: 500; text-align: center;">
+                <div class="col-4">
+                    <div><a class="navbar-link" href="/admin/orders">Ордеры</a></div>
+                </div>
+                <div class="col-4">
+                    <div><a class="navbar-link" href="/admin/pairs">Валютные пары</a></div>
+                </div>
+                <div class="col-4">
+                    <div><a class="navbar-link" href="">Резервы</a></div>
+                </div>
+            </div>
+            <div class="d-flex flex-row-reverse" style="width: 25%;">
+                <button class="btn btn-primary d-block d-lg-none" style="margin-left: 10px;"><span
+                        style="font-weight: 500;"><i class="fa-solid fa-bars"></i>
+                </button>
+                <button class="btn btn-primary"><span style="font-weight: 600;"><span
+                            class="d-none d-lg-inline">Аккаунт&nbsp;&nbsp;</span><i class="fa-solid fa-circle-user"></i>
+                </button>
+            </div>
+
+        </div>
+    </nav>
+
+    <div class="container">
+        <div></div>
+        <div
+            style="box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1); border-radius: 10px; margin-top: 40px; margin-bottom: 40px; overflow: hidden;">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col"
+                            style="background: #0d6efd; color: #fff; padding-top: 11px; padding-left: 20px; padding-bottom: 12px;">
+                            ID</th>
+                        <th scope="col"
+                            style="background: #0d6efd; color: #fff; padding-top: 11px; padding-bottom: 12px;">Валютная
+                            пара</th>
+                        <th scope="col"
+                            style="background: #0d6efd; color: #fff; padding-top: 11px; padding-bottom: 12px;">Курс</th>
+                        <th scope="col"
+                            style="background: #0d6efd; color: #fff; padding-top: 11px; padding-bottom: 12px;">Статус
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% currencies.forEach(function(item) { %>
+                        <tr>
+                            <td style="padding-top: 14px; padding-left: 20px; padding-bottom: 15px;">
+                                <a class="id-link" href="/swap/<%= item.currency1_id %>-<%= item.currency2_id %>">
+                                    <%= item.id %>
+                                </a>
+                            </td>
+                            <th scope="row"
+                                style="color: #383838; font-weight: 500; padding-top: 14px; padding-bottom: 15px;">
+                                <img style="width: 22px; max-height: 22px; margin-top: -2px; margin-right: 6px;"
+                                    src="/icons/<%= item.currency1_id %>.svg">
+                                <%= item.currency1_name %> 🠪 <%= item.currency2_name %>
+                            </th>
+                            <td style="color: #383838; font-weight: 500; padding-top: 14px; padding-bottom: 15px;">
+                                <% if (item.currency1_type=='bank' ) { %>
+                                    <%= item.currency2_value.toFixed(8) %>
+                                        <% } else { %>
+                                            <%= item.currency2_value.toFixed(2) %>
+                                                <% } %>
+                            </td>
+
+                            <td style="padding-top: 14px; padding-bottom: 15px;">
+                                <div class="form-check form-switch d-inline-flex">
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                        id="flexSwitchCheckChecked" <% if (item.status==1) { %>onclick="$('#fog').removeClass('d-none'); window.location = '/admin/pairs/<%= item.currency1_id %>-<%= item.currency2_id %>?status=0';" checked<% } else { %>onclick="$('#fog').removeClass('d-none'); window.location = '/admin/pairs/<%= item.currency1_id %>-<%= item.currency2_id %>?status=1';"<% } %>>
+                                        <% if (item.status==1) { %>
+                                        <label style="font-size: 14px; color: #383838; margin-left: 6px; margin-top: 1px;">ВКЛ</label>
+                                        <% } else { %>
+                                        <label style="font-size: 14px; color: #959595; margin-left: 6px; margin-top: 1px;">ВЫКЛ</label>
+                                        <% } %>
+                                </div>
+                            </td>
+                        </tr>
+                        <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="d-flex justify-content-between">
+                    <div style="width: 65%;">
+                        <div class="d-flex justify-content-start">
+                            <div
+                                style="width: 36px; height: 36px; position: relative; background: #0d6efd; border-radius: 6px;">
+                                <img src="/icons/logo.svg"
+                                    style="width: 22px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                            </div>
+                            <p class="align-self-center footer-title">WaveSwap</p>
+
+                        </div>
+                        <p class="footer-copyright">Сервис качественных и быстрых обменов<br>
+                            Все права защищены. Copyright © waveswap.net 2021-2023</p>
+                    </div>
+
+                    <div class="d-flex flex-column">
+                        <p class="d-inline-flex footer-link" style="margin-top: 10px;"><a href="/news">Новости</a></p>
+                        <p class="d-inline-flex footer-link"><a href="/partners">Партнерам</a></p>
+                        <p class="d-inline-flex footer-link"><a href="">Авторизация</a></p>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <p class="d-inline-flex footer-link" style="margin-top: 10px;"><a href="/rules">Правила
+                                обмена</a></p>
+                        <p class="d-inline-flex footer-link"><a href="/help">Поддержка</a></p>
+                        <p class="d-inline-flex footer-link"><a href="/contacts">Контакты</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+
+    </script>
+</body>
+
+</html>

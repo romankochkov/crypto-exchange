@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.svg">
+    <title>
+        Ордеры | WaveSwap
+    </title>
+</head>
+
+<body>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+            background: #ececec;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .add-invoice-button {
+            background: #0d6efd;
+            border-radius: 8px;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            padding-top: 10px;
+            padding-left: 80px;
+            padding-right: 80px;
+            padding-bottom: 12px;
+            transition: 0s;
+        }
+
+        .add-invoice-button:hover {
+            background: #2b80ff;
+            color: #fff;
+        }
+
+        .fog {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(0.5px);
+            z-index: 998;
+        }
+
+        nav {
+            position: relative;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            z-index: 80;
+        }
+
+        nav .container {
+            padding-top: 13px;
+            padding-bottom: 15px;
+        }
+
+        .navbar-brand {
+            font-size: 23px;
+            font-weight: 700;
+            margin-right: 0;
+        }
+
+        .navbar-link {
+            color: #222222;
+            text-decoration: none;
+        }
+
+        .navbar-link:hover {
+            text-decoration: underline;
+        }
+
+        .order {
+            background: #fff;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            border-radius: 7px;
+            padding-top: 18px;
+            padding-left: 30px;
+            padding-right: 30px;
+            padding-bottom: 18px;
+            margin-bottom: 30px;
+        }
+
+        .order-title {
+            color: #0d6efd;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+
+        .order-title a {
+            color: #0d6efd;
+            text-decoration: none;
+        }
+
+        .order-title:hover a {
+            text-decoration: underline;
+        } 
+
+        .order-button {
+            position: relative;
+            width: 34px;
+            height: 34px;
+            background: #fff;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+            border: 1px solid #ddd;
+            border-radius: 40px;
+            transition: 0s;
+        }
+
+        .order-button:hover i {
+            color: #fff;
+        }
+
+        .order-button i {
+            position: absolute;
+            top: 49%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #888888;
+        }
+
+        .invoice-button {
+            position: relative;
+            height: 34px;
+            background: #fff;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+            border: 1px solid #ddd;
+            border-radius: 40px;
+            color: #888888;
+            font-size: 14px;
+            padding-left: 15px;
+            padding-right: 15px;
+            line-height: 0.9;
+            margin-right: 7px;
+            transition: 0s;
+        }
+
+        .invoice-button:hover i {
+            color: #fff;
+        }
+
+        .invoice-button i {
+            color: #888888;
+            font-size: 11px;
+            margin-left: 3px;
+        }
+
+        footer {
+            background: #383838;
+            background-image: url('/icons/wave.svg');
+            background-size: cover;
+            background-position: 50% 30%;
+            padding-top: 50px;
+            padding-bottom: 40px;
+            border-top: 2px solid rgb(119, 119, 119);
+        }
+
+        .footer-title {
+            position: relative;
+            font-size: 23px;
+            font-weight: 600;
+            color: #fff;
+            margin-top: 1.5px;
+            margin-left: 10px;
+            margin-bottom: 0;
+        }
+
+        .footer-copyright {
+            color: rgb(122, 122, 122);
+            font-size: 13px;
+            margin-top: 20px;
+            margin-bottom: 0;
+        }
+
+        .footer-link {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .footer-link a {
+            color: #e7e7e7;
+            text-decoration: none;
+        }
+
+        .footer-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    <div class="modal fade" id="add_invoice" aria-hidden="true" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" style="width: 380px;">
+            <div class="modal-content">
+                <div class="modal-header"
+                    style="position: relative; padding-top: 25px; padding-left: 35px; padding-right: 20px; padding-bottom: 25px;">
+                    <div id="add_invoice_title"
+                        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #383838; font-size: 19px; font-weight: 600;">
+                        Авторизация</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="padding-left: 35px; padding-right: 35px;">
+                    <div
+                        style="width: 100%; height: 2px; position: relative; background: #dddddd; margin-top: 5px; margin-bottom: 20px;">
+                    </div>
+                    <form id="add_invoice_form" method="post" action="">
+                        <div class="form-floating mt-3 mb-4">
+                            <select style="color: #383838;" class="form-select" name="currency" required>
+                                <option value="Рубль (RUB)">Рубль (RUB)</option>
+                                <option value="Tether (USDT)">Tether (USDT)</option>
+                                <option value="USD Coin (USDC)">USD Coin (USDC)</option>
+                                <option value="Bitcoin (BTC)">Bitcoin (BTC)</option>
+                                <option value="Ethereum (ETH)">Ethereum (ETH)</option>
+                                <option value="Litecoin (LTC)">Litecoin (LTC)</option>
+                                <option value="Monero (XMR)">Monero (XMR)</option>
+                                <option value="TRON (TRX)">TRON (TRX)</option>
+                                <option value="Binance Coin (BNB)">Binance Coin (BNB)</option>
+                                <option value="Solana (SOL)">Solana (SOL)</option>
+                                <option value="Ripple (XRP)">Ripple (XRP)</option>
+                              </select>
+                            <label>Валюта</label>
+                        </div>
+                        <div class="form-floating mt-3 mb-4">
+                            <input style="color: #383838;" type="text" class="form-control" placeholder="Банк" name="bank">
+                            <label>Банк</label>
+                        </div>
+                        <div class="form-floating mt-3 mb-4">
+                            <input style="color: #383838;" type="text" class="form-control" placeholder="Номер карты" name="card_number" maxlength="16">
+                            <label>Номер карты</label>
+                        </div>
+                        <div class="form-floating mt-3 mb-4">
+                            <input style="color: #383838;" type="text" class="form-control" placeholder="ФИО" name="person">
+                            <label>ФИО</label>
+                        </div>
+                        <div class="form-floating mt-3 mb-4">
+                            <input style="color: #383838;" type="text" class="form-control" placeholder="Криптокошелек" name="cryptowallet">
+                            <label>Криптокошелек</label>
+                        </div>
+                        <div class="form-floating mt-3 mb-4">
+                            <input style="color: #383838;" type="text" class="form-control" placeholder="Сеть" name="network">
+                            <label>Сеть</label>
+                        </div>
+                        <div class="form-floating mt-3 mb-4">
+                            <input style="color: #383838;" type="number" class="form-control" placeholder="Сумма" name="value" required>
+                            <label>Сумма</label>
+                        </div>
+                        <div class="d-flex justify-content-center mb-3">
+                            <button class="add-invoice-button" type="submit">Добавить</button>
+                        </div>
+                    </form>
+                    <div
+                        style="width: 100%; height: 2px; position: relative; background: #dddddd; margin-top: 20px; margin-bottom: 5px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="fog" class="fog d-none">
+    </div>
+
+    <nav class="navbar bg-body-tertiary">
+        <div class="container">
+            <div style="width: 25%;">
+                <a class="navbar-brand" href="/">
+                    <div class="d-flex flex-row">
+                        <div class="d-none d-md-block"
+                            style="width: 36px; height: 36px; position: relative; background: #0d6efd; border-radius: 6px;">
+                            <!--<i style="position: absolute; top: 48%; left: 50%; transform: translate(-50%, -50%); font-size: 20px; color: #fff;"
+                                class="fa-solid fa-building-columns"></i>-->
+                            <img src="/icons/logo.svg"
+                                style="width: 22px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                        </div>
+                        <p class="d-inline-flex"
+                            style="font-size: 23px; margin-top: 1.5px; margin-left: 10px; margin-bottom: 0;">WaveSwap
+                        </p>
+                    </div>
+                </a>
+            </div>
+            <div class="row g-0 d-none d-lg-flex"
+                style="width: 50%; font-size: 16px; font-weight: 500; text-align: center;">
+                <div class="col-4">
+                    <div><a class="navbar-link" href="/admin/orders">Ордеры</a></div>
+                </div>
+                <div class="col-4">
+                    <div><a class="navbar-link" href="/admin/pairs">Валютные пары</a></div>
+                </div>
+                <div class="col-4">
+                    <div><a class="navbar-link" href="">Резервы</a></div>
+                </div>
+            </div>
+            <div class="d-flex flex-row-reverse" style="width: 25%;">
+                <button class="btn btn-primary d-block d-lg-none" style="margin-left: 10px;"><span
+                        style="font-weight: 500;"><i class="fa-solid fa-bars"></i>
+                </button>
+                <button class="btn btn-primary"><span style="font-weight: 600;"><span
+                            class="d-none d-lg-inline">Аккаунт&nbsp;&nbsp;</span><i class="fa-solid fa-circle-user"></i>
+                </button>
+            </div>
+
+        </div>
+    </nav>
+
+    <div class="container" style="min-height: 600px; margin-top: 40px; margin-bottom: 40px;">
+        <% orders.forEach(function(item) { %>
+            <div class="order">
+                <div class="d-flex justify-content-between">
+                    <p class="d-inline-flex order-title">
+                        <a href="/order/<%= item.order_id %>" target="_blank"><%= item.order_id %></a>
+                            <% if (item.invoice) { %>
+                                <span class="badge bg-success"
+                                    style="height: 17px; font-size: 10px; vertical-align: top; margin-left: 5px;">Оплачен</span>
+                                <% } else if (item.status==1) { %>
+                                    <span class="badge bg-danger"
+                                        style="height: 17px; font-size: 10px; vertical-align: top; margin-left: 5px;">Новый</span>
+                                    <% } %>
+                    </p>
+                    <div>
+                        <% if (item.invoice) { %>
+                            <button class="btn btn-primary invoice-button"
+                                onclick="window.open('/admin/invoices/<%= item.invoice %>', '_blank');">Показать чек
+                                <i class="fa-solid fa-up-right-from-square"></i>
+                            </button>
+                            <% } else { %>
+                                <button class="btn btn-primary invoice-button" data-bs-target="#add_invoice"
+                                    data-bs-toggle="modal"
+                                    onclick="$('#add_invoice_title').text('<%= item.order_id %>'); $('#add_invoice_form').attr('action', '/admin/orders/<%= item.order_id %>')">Добавить реквизиты
+                                    <i style="font-size: 12px;" class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <% } %>
+                                    <button class="btn btn-primary order-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#order_collapse_<%= item.id %>" aria-expanded="false"
+                                        aria-controls="order_collapse_<%= item.id %>">
+                                        <i class="fa-solid fa-caret-down"></i>
+                                    </button>
+                    </div>
+                </div>
+                <div class="collapse" id="order_collapse_<%= item.id %>">
+                    <div class="card card-body" style="margin-top: 15px; margin-bottom: 10px;">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-floating">
+                                    <input style="color: #383838;" type="text" class="form-control"
+                                        placeholder="Валютная пара"
+                                        value="<%= item.currency1_id.toUpperCase() %> 🠪 <%= item.currency2_id.toUpperCase() %>"
+                                        readonly>
+                                    <label>Валютная пара</label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-floating">
+                                    <input style="color: #383838;" type="text" class="form-control" placeholder="Дата"
+                                        value="<%= item.date %>" readonly>
+                                    <label>Дата</label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-floating">
+                                    <select style="color: #383838;" id="<%= item.id %>" class="form-select"
+                                        onchange="selectChange(this)">
+                                        <option value="0" <% if (item.status==0) { %>selected<% } %>>Отменен</option>
+                                        <option value="1" <% if (item.status==1) { %>selected<% } %>>Новый</option>
+                                        <option value="2" <% if (item.status==2) { %>selected<% } %>>Ожидание реквизитов
+                                        </option>
+                                        <option value="3" <% if (item.status==3) { %>selected<% } %>>Ожидание оплаты
+                                        </option>
+                                        <option value="4" <% if (item.status==4) { %>selected<% } %>>Оплачен</option>
+                                        <option value="5" <% if (item.status==5) { %>selected<% } %>>Выполнен</option>
+                                    </select>
+                                    <label>Статус</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% }) %>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="d-flex justify-content-between">
+                    <div style="width: 65%;">
+                        <div class="d-flex justify-content-start">
+                            <div
+                                style="width: 36px; height: 36px; position: relative; background: #0d6efd; border-radius: 6px;">
+                                <img src="/icons/logo.svg"
+                                    style="width: 22px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                            </div>
+                            <p class="align-self-center footer-title">WaveSwap</p>
+
+                        </div>
+                        <p class="footer-copyright">Сервис качественных и быстрых обменов<br>
+                            Все права защищены. Copyright © waveswap.net 2021-2023</p>
+                    </div>
+
+                    <div class="d-flex flex-column">
+                        <p class="d-inline-flex footer-link" style="margin-top: 10px;"><a href="/news">Новости</a></p>
+                        <p class="d-inline-flex footer-link"><a href="/partners">Партнерам</a></p>
+                        <p class="d-inline-flex footer-link"><a href="">Авторизация</a></p>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <p class="d-inline-flex footer-link" style="margin-top: 10px;"><a href="/rules">Правила
+                                обмена</a></p>
+                        <p class="d-inline-flex footer-link"><a href="/help">Поддержка</a></p>
+                        <p class="d-inline-flex footer-link"><a href="/contacts">Контакты</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        function selectChange(selectElement) {
+            let selectedOrder = selectElement.getAttribute("id");
+            let selectedValue = selectElement.value;
+            window.location = `/admin/orders/${selectedOrder}?status=${selectedValue}`;
+        }
+    </script>
+</body>
+
+</html>

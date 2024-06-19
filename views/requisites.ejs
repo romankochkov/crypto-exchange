@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pluto Exchange</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/tt-norms-medium" type="text/css" />
+    <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/ttnorms-black" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="bg-dark">
+    <style>
+        body {
+            font-family: 'TTNormsMedium';
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        .modal label {
+            color: #fff;
+        }
+
+        .button-escape {
+            width: 50px;
+            height: 50px;
+            border-radius: 40px;
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            cursor: pointer;
+        }
+
+        .button-escape:hover {
+            border: 3px dashed #fff;
+        }
+
+        .button-escape i {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: #fff;
+        }
+
+        .navbar-brand {
+            font-size: 22px;
+            font-family: 'TTNormsBlack';
+        }
+
+        .form-control[type="search"] {
+            border-radius: 40px;
+            border: none;
+        }
+
+        .form-control[type="search"]:focus {
+            box-shadow: none;
+        }
+
+        .form-control[type="search"]::placeholder {
+            color: #aaaaaa;
+        }
+
+        .button-search {
+            width: 52.5px;
+            border-radius: 40px;
+            padding: 0;
+            margin-left: 4px;
+        }
+
+        .navbar-separator {
+            width: 2px;
+            height: 32px;
+            background: #4e4e4e;
+            border-radius: 40px;
+            margin-top: 3px;
+            margin-left: 12px;
+            margin-right: 12px;
+            margin-bottom: 3px;
+        }
+
+        .button-add {
+            width: 52.5px;
+            height: 38px;
+            position: relative;
+            border-radius: 40px;
+            padding: 0;
+        }
+
+        .button-add i {
+            position: absolute;
+            top: 52%;
+            height: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .link {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .link:hover {
+            color: #0d6efd;
+        }
+
+        .button-edit {
+            width: 26px;
+            height: 26px;
+            position: relative;
+            border-radius: 6px;
+            margin-top: -1px;
+        }
+
+        .button-edit i {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 13px;
+        }
+
+        .form-switch {
+            margin-left: 4px;
+        }
+
+        .form-switch input {
+            cursor: pointer;
+        }
+    </style>
+
+    <div id="modal_escape" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark">
+                <div class="modal-header mx-2" style="border-bottom: 2px solid #4e4e4e;" data-bs-theme="dark">
+                    <h5 class="modal-title" style="color: #fff;">Съебывательный центр</h5>
+                    <button style="background: transparent #fff center/1em auto no-repeat;" type="button"
+                        class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body mx-2">
+                    <p style="color: #fff;">Вам нужно съебаться?<br>(ЭТИ ИЗМЕНЕНИЯ НЕВОЗМОЖНО ОТМЕНИТЬ)</p>
+                </div>
+                <div class="modal-footer mx-2" style="border-top: 2px solid #4e4e4e;">
+                    <div class="d-flex justify-content-between" style="width: 100%;">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Не, ложная
+                            тревога</button>
+                        <button type="button" class="btn btn-danger">Удалить все нахуй!!!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal_add_requisite" class="modal fade" tabindex="-1">
+        <form method="post">
+            <div class="modal-dialog">
+                <div class="modal-content bg-dark">
+                    <div class="modal-header mx-2" style="border-bottom: 2px solid #4e4e4e;" data-bs-theme="dark">
+                        <h5 class="modal-title" style="color: #fff;">Добавить ордер</h5>
+                        <button style="background: transparent #fff center/1em auto no-repeat;" type="button"
+                            class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body mx-2" data-bs-theme="dark">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="input_bank" placeholder="Банк" name="bank" required>
+                            <label>Банк</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="input_person" placeholder="ФИО" name="person" required>
+                            <label>ФИО</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="input_card_number" placeholder="Номер карты"
+                                name="card_number" required>
+                            <label>Номер карты</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="input_phone_number" placeholder="Номер телефона"
+                                name="phone_number"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required>
+                            <label>Номер телефона</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="input_age" placeholder="Возраст" name="age" required>
+                            <label>Возраст</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="input_location" placeholder="Место жительства"
+                                name="location" required>
+                            <label>Место жительства</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="input_comment" placeholder="Комментарий"
+                                name="comment" required>
+                            <label>Комментарий</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="input_amount" placeholder="Сумма"
+                                name="amount"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required>
+                            <label>Сумма</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer mx-2" style="border-top: 2px solid #4e4e4e;">
+                        <div class="d-flex justify-content-between" style="width: 100%;">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+                            <button type="submit" class="btn btn-primary">Добавить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="modal_edit_requisite" class="modal fade" tabindex="-1">
+        <form id="form_edit" method="post">
+            <div class="modal-dialog">
+                <div class="modal-content bg-dark">
+                    <div class="modal-header mx-2" style="border-bottom: 2px solid #4e4e4e;" data-bs-theme="dark">
+                        <h5 class="modal-title" style="color: #fff;">Изменить ордер</h5>
+                        <button style="background: transparent #fff center/1em auto no-repeat;" type="button"
+                            class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body mx-2" data-bs-theme="dark">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="input_edit_bank" placeholder="Банк" name="bank" required>
+                            <label>Банк</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="input_edit_person" placeholder="ФИО"
+                                name="person" required>
+                            <label>ФИО</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="input_edit_card_number"
+                                placeholder="Номер карты" name="card_number" required>
+                            <label>Номер карты</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="input_edit_phone_number"
+                                placeholder="Номер телефона" name="phone_number"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required>
+                            <label>Номер телефона</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="input_edit_age" placeholder="Возраст"
+                                name="age" required>
+                            <label>Возраст</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="input_edit_location"
+                                placeholder="Место жительства" name="location" required>
+                            <label>Место жительства</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="input_edit_comment" placeholder="Комментарий"
+                                name="comment" required>
+                            <label>Комментарий</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="input_edit_amount" placeholder="Сумма"
+                                name="amount"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required>
+                            <label>Сумма</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer mx-2" style="border-top: 2px solid #4e4e4e;">
+                        <div class="d-flex justify-content-between" style="width: 100%;">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+                            <button type="submit" class="btn btn-primary">Подтвердить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="button-escape bg-danger" data-bs-toggle="modal" data-bs-target="#modal_escape"><i
+            class="fa-solid fa-person-running"></i></div>
+
+    <div style="border-bottom: 1px solid #242424; box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3); margin-bottom: 20px;">
+        <div class="container g-0">
+            <nav class="navbar bg-dark" style="padding-top: 12px; padding-bottom: 14px;">
+                <div class="container-fluid">
+                    <div>
+                        <a class="navbar-brand text-primary" href="/admin/requisites" style="margin-right: 5px;">
+                            <i class="fa-solid fa-globe"></i>
+                        </a>
+                        <a class="navbar-brand text-primary" href="/admin/requisites">Pluto Exchange</a>
+                    </div>
+                    <form class="d-flex" role="search" method="get">
+                        <input class="form-control me-2" type="search" placeholder="89806081766" aria-label="Search" style="background: #373b3e; color: #fff;"
+                            name="search" value="<%= search %>">
+                        <button class="button-search btn btn-primary" type="submit"><i
+                                class="fa-solid fa-magnifying-glass"></i></button>
+                        <div class="navbar-separator"></div>
+                        <button class="button-add btn btn-primary" type="button" data-bs-toggle="modal"
+                            data-bs-target="#modal_add_requisite"><i class="fa-solid fa-plus"></i></button>
+                    </form>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container">
+        <table class="table table-dark table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Банк</th>
+                    <th scope="col">Карта</th>
+                    <th scope="col">ФИО</th>
+                    <th scope="col">Телефон</th>
+                    <th scope="col">Возраст</th>
+                    <th scope="col">Локация</th>
+                    <th scope="col">Коммент</th>
+                    <th scope="col">Сумма</th>
+                    <th scope="col"><i style="margin-left: 5.5px;" class="fa-solid fa-gear"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% data.forEach(function(item) { %>
+                    <tr>
+                        <th class="link" scope="row" onclick="copyText('<%= item.id %>');">
+                            <%= item.id %>
+                        </th>
+                        <td id="bank_<%= item.id %>">
+                            <%= item.bank %>
+                        </td>
+                        <td id="card_number_<%= item.id %>">
+                            <%= item.card_number %>
+                        </td>
+                        <td id="person_<%= item.id %>" full="<%= item.person_full %>">
+                            <%= item.person %>
+                        </td>
+                        <td id="phone_number_<%= item.id %>">
+                            <%= item.phone_number %>
+                        </td>
+                        <td id="age_<%= item.id %>">
+                            <%= item.age %>
+                        </td>
+                        <td id="location_<%= item.id %>">
+                            <%= item.location %>
+                        </td>
+                        <td id="comment_<%= item.id %>">
+                            <%= item.comment %>
+                        </td>
+                        <td id="amount_<%= item.id %>">
+                            <%= item.amount %>₽
+                        </td>
+                        <td>
+                            <div class="d-flex justify-content-between">
+                                <button class="button-edit btn btn-primary" onclick="editModal('<%= item.id %>');" data-bs-toggle="modal"
+                                    data-bs-target="#modal_edit_requisite"><i
+                                        class="fa-solid fa-pen"></i></button>
+                                <div class="form-check form-switch">
+                                    <% if (item.status==1) { %>
+                                        <input class="form-check-input" type="checkbox" role="switch"
+                                            id="input_status_<%= item.id %>"
+                                            onclick="location.href = '<%= item.id %>?status=0'" checked>
+                                        <% } else { %>
+                                            <input class="form-check-input" type="checkbox" role="switch"
+                                                id="input_status_<%= item.id %>"
+                                                onclick="location.href = '<%= item.id %>?status=1'">
+                                            <% } %>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        function copyText(text) {
+            navigator.clipboard.writeText('https://plutoexchange.ru/payment/' + text);
+        }
+        function editModal(id) {
+            $('#form_edit').attr('action', id);
+            $('#input_edit_bank').val($('#bank_' + id).text().trim());
+            $('#input_edit_card_number').val($('#card_number_' + id).text().trim());
+            $('#input_edit_person').val($('#person_' + id).attr('full').trim());
+            $('#input_edit_phone_number').val($('#phone_number_' + id).text().trim());
+            $('#input_edit_age').val($('#age_' + id).text().trim());
+            $('#input_edit_location').val($('#location_' + id).text().trim());
+            $('#input_edit_comment').val($('#comment_' + id).text().trim());
+            $('#input_edit_amount').val($('#amount_' + id).text().trim().replaceAll('.', '').replace('₽', ''));
+        }
+    </script>
+</body>
+
+</html>

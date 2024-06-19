@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.svg">
+    <title>
+        <%= currencies[0].currency1_name %> - <%= currencies[0].currency2_name %> | WaveSwap
+    </title>
+</head>
+
+<body>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+            background: #ececec;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .auth-button {
+            background: #0d6efd;
+            border-radius: 8px;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            padding-top: 10px;
+            padding-left: 80px;
+            padding-right: 80px;
+            padding-bottom: 12px;
+            transition: 0s;
+        }
+
+        .auth-button:hover {
+            background: #2b80ff;
+            color: #fff;
+        }
+
+        .telegram {
+            position: fixed;
+            right: 20px;
+            bottom: 30px;
+            z-index: 1000;
+        }
+
+        .telegram-tooltip {
+            position: relative;
+            background: #34A853;
+            box-shadow: -2px 2px 7px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 500;
+            padding-top: 8px;
+            padding-left: 12px;
+            padding-right: 12px;
+            padding-bottom: 8px;
+            animation-name: disappearance;
+            animation-duration: 0.4s;
+            animation-delay: 5s;
+            animation-fill-mode: forwards;
+        }
+
+        .telegram-tooltip-arrow {
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 8px solid #34A853;
+            margin-right: 10px;
+            animation-name: disappearance;
+            animation-duration: 0.6s;
+            animation-delay: 5s;
+            animation-fill-mode: forwards;
+        }
+
+        .telegram-button {
+            width: 56px;
+            height: 56px;
+            position: relative;
+            background: #fff;
+            box-shadow: 0 2px 7px 2px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            transition: 0.2s;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .telegram-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 2px 5px 3px rgba(25, 127, 210, 0.3);
+        }
+
+        .telegram-button i {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 32px;
+            color: #2AABEE;
+        }
+
+        .fog {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(0.5px);
+            z-index: 997;
+        }
+
+        nav {
+            position: relative;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            z-index: 80;
+        }
+
+        nav .container {
+            padding-top: 13px;
+            padding-bottom: 15px;
+        }
+
+        .navbar-logo-div {
+            width: 25%;
+        }
+
+        .navbar-brand {
+            font-size: 23px;
+            font-weight: 700;
+            margin-right: 0;
+        }
+
+        .navbar-link {
+            color: #222222;
+            text-decoration: none;
+        }
+
+        .navbar-link:hover {
+            text-decoration: underline;
+        }
+
+        .card {
+            position: relative;
+            background: #0d6efd;
+            box-shadow: 0 3px 15px rgba(25, 56, 210, 0.4);
+            border: none;
+            border-radius: 11px;
+            padding-top: 30px;
+            padding-left: 44px;
+            padding-right: 44px;
+            padding-bottom: 46px;
+            margin-top: 60px;
+            margin-bottom: 60px;
+        }
+
+        .card-color {
+            height: 830px;
+            width: 100%;
+            position: absolute;
+            top: 0%;
+            left: -360px;
+            transform: rotate(110deg);
+            background: #2b80ff;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            z-index: 0;
+        }
+
+        .card-swap {
+            height: 40px;
+            position: relative;
+            margin-top: 73px;
+            margin-bottom: 73px;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .card-swap i:hover {
+            animation-name: swap-rotate;
+            animation-duration: 0.4s;
+        }
+
+        .card-swap i {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 28px;
+            color: #383838;
+        }
+
+        .card-title {
+            position: relative;
+            font-size: 24px;
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 20px;
+            z-index: 1;
+        }
+
+        .card-pair {
+            position: inherit;
+            color: #cacaca;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 10;
+        }
+
+        .input-group .input-group-text {
+            width: 55px;
+            position: relative;
+            font-size: 20px;
+            color: #888888;
+        }
+
+        .input-group .input-group-text .icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .input-group input {
+            font-size: 16px;
+            padding-top: 18px;
+            padding-bottom: 18px;
+        }
+
+        .input-group input:focus {
+            box-shadow: none;
+        }
+
+        .input-group input::placeholder {
+            color: #888888;
+        }
+
+        .modal-body .input-group .input-group-text {
+            width: auto;
+            position: relative;
+            font-size: 20px;
+            color: #888888;
+        }
+
+        .input-group-currency .input-group-text {
+            width: auto;
+            position: relative;
+            font-size: 18px;
+            color: #383838;
+            padding-left: 18px;
+            padding-right: 18px;
+            cursor: pointer;
+        }
+
+        .input-group-currency input {
+            border-top-right-radius: 6px !important;
+            border-bottom-right-radius: 6px !important;
+            font-size: 16px;
+            padding-top: 25px;
+            padding-bottom: 25px;
+        }
+
+        .input-group-currency input::placeholder {
+            color: #888888;
+        }
+
+        .input-group p {
+            position: absolute;
+            top: 24px;
+            right: 22px;
+            font-size: 18px;
+            color: #888888;
+            border-radius: 6px;
+        }
+
+        .card-button {
+            position: relative;
+            background: #383838;
+            border: none;
+            font-size: 17px;
+            font-weight: 500;
+            color: #fff;
+            border-radius: 8px;
+            padding-top: 18px;
+            padding-left: 55px;
+            padding-right: 55px;
+            padding-bottom: 18px;
+            cursor: pointer;
+        }
+
+        .card-button:hover {
+            background: #444444;
+        }
+
+        #change_currency1 {
+            width: 730px;
+            background: #fff;
+            border: var(--bs-border-width) solid var(--bs-border-color);
+            border-radius: var(--bs-border-radius);
+            position: absolute;
+            top: 111%;
+            left: calc(0% + 1.5px);
+            z-index: 999;
+        }
+
+        #change_currency2 {
+            width: 730px;
+            background: #fff;
+            border: var(--bs-border-width) solid var(--bs-border-color);
+            border-radius: var(--bs-border-radius);
+            position: absolute;
+            top: 111%;
+            right: calc(0% - 0.5px);
+            z-index: 999;
+        }
+
+        @media (max-width: 991.98px) {
+            #change_currency1 {
+                width: 100%;
+            }
+
+            #change_currency2 {
+                width: 100%;
+            }
+        }
+
+        .change-item {
+            position: relative;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            padding-left: 15px;
+            padding-right: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+            user-select: none;
+        }
+
+        .change-item:hover {
+            box-shadow: 0 2px 10px rgba(52, 123, 223, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .change-item img {
+            width: 28px;
+            float: left;
+            margin-right: 9px;
+        }
+
+        .change-item p {
+            color: #383838;
+            font-size: 14px;
+            position: static;
+            margin-top: 15.5px;
+        }
+
+        .change-mark-item {
+            background: #fff;
+            padding-left: 15px;
+            padding-right: 30px;
+            padding-top: 6px;
+            padding-bottom: 7px;
+            border-bottom: 1px solid #cecece;
+            cursor: pointer;
+        }
+
+        .change-mark-item:hover {
+            background: #ececec;
+        }
+
+        .stock {
+            position: relative;
+            background: #fff;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+            padding-top: 50px;
+            padding-bottom: 50px;
+            z-index: 80;
+        }
+
+        .stock-title {
+            position: relative;
+            font-size: 24px;
+            color: #383838;
+            font-weight: 700;
+            margin-bottom: 30px;
+            z-index: 1;
+        }
+
+        .stock-item {
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+            border-radius: 6px;
+            padding-top: 10px;
+            padding-left: 15px;
+            padding-right: 10px;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            opacity: 0;
+            animation-name: appearance;
+            animation-fill-mode: forwards;
+            animation-duration: 1s;
+            transition: 0.2s;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .stock-item:hover {
+            box-shadow: 0 2px 10px rgba(52, 123, 223, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .stock-item-icon {
+            max-height: 40px;
+            width: 42px;
+            float: left;
+            margin-top: 3px;
+            margin-right: 10px;
+        }
+
+        .stock-item-title {
+            color: #383838;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 22px;
+            margin-bottom: 0;
+        }
+
+        .stock-item-title span {
+            color: rgb(151, 151, 150);
+            font-family: 'Roboto', sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .form-check-input:checked {
+            box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.5);
+        }
+
+        footer {
+            background: #383838;
+            background-image: url('/icons/wave.svg');
+            background-size: cover;
+            background-position: 50% 30%;
+            padding-top: 50px;
+            padding-bottom: 40px;
+            border-top: 2px solid rgb(119, 119, 119);
+        }
+
+        .footer-title {
+            position: relative;
+            font-size: 23px;
+            font-weight: 600;
+            color: #fff;
+            margin-top: 1.5px;
+            margin-left: 10px;
+            margin-bottom: 0;
+        }
+
+        .footer-copyright {
+            color: rgb(122, 122, 122);
+            font-size: 13px;
+            margin-top: 20px;
+            margin-bottom: 0;
+        }
+
+        footer .bestchange {
+            width: 200px;
+            margin-top: 50px;
+        }
+
+        .footer-link {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .footer-link a {
+            color: #e7e7e7;
+            text-decoration: none;
+        }
+
+        .footer-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 767.98px) {
+            .card {
+                padding-top: 20px;
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-bottom: 22px;
+                margin-top: 40px;
+                margin-bottom: 40px;
+            }
+
+            .card-swap {
+                margin-top: 30px;
+                margin-bottom: 22px;
+            }
+
+            .card-title {
+                text-align: center;
+            }
+
+            .navbar-logo-div {
+                width: 50%;
+            }
+
+            .footer-copyright {
+                font-size: 12px;
+            }
+
+            .footer-link {
+                font-size: 12.5px;
+            }
+        }
+
+        @keyframes appearance {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes disappearance {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        @keyframes swap-rotate {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) rotate(180deg);
+            }
+        }
+
+        .watermark {
+            position: absolute;
+            width: 150px;
+            height: 60px;
+            font-size: 22px;
+            line-height: 100px;
+            text-align: center;
+            opacity: 0.15;
+            transform: rotate(30deg);
+            user-select: none;
+        }
+    </style>
+
+    <div class="modal fade" id="auth_modal" aria-hidden="true" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" style="width: 380px; margin-top: -3%;">
+            <div class="modal-content">
+                <div class="modal-header"
+                    style="position: relative; padding-top: 25px; padding-left: 35px; padding-right: 20px; padding-bottom: 25px;">
+                    <div
+                        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #383838; font-size: 19px; font-weight: 600;">
+                        Авторизация</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="padding-left: 35px; padding-right: 35px;">
+                    <div
+                        style="width: 100%; height: 2px; position: relative; background: #dddddd; margin-top: 5px; margin-bottom: 20px;">
+                    </div>
+                    <form method="post" action="/authorization">
+                        <div class="input-group flex-nowrap mt-3 mb-4">
+                            <span style="width: 40px; font-size: 16px;" class="input-group-text"><i
+                                    style="position: absolute; top: 50%; left: 52%; transform: translate(-50%, -50%);"
+                                    class="fa-solid fa-envelope"></i></span>
+                            <input style="color: #383838; padding-top: 12px; padding-bottom: 12px;" type="email"
+                                class="form-control" placeholder="E-mail" aria-label="email"
+                                aria-describedby="addon-wrapping" name="email" required>
+                        </div>
+                        <div class="input-group flex-nowrap" style="margin-bottom: 70px;">
+                            <span style="width: 40px; font-size: 16px;" class="input-group-text"><i
+                                    style="position: absolute; top: 50%; left: 52%; transform: translate(-50%, -50%);"
+                                    class="fa-solid fa-lock"></i></span>
+                            <input style="color: #383838; padding-top: 12px; padding-bottom: 12px;" type="password"
+                                class="form-control" placeholder="Пароль" aria-label="password"
+                                aria-describedby="addon-wrapping" name="password" minlength="8" maxlength="32" required>
+                        </div>
+                        <div class="d-flex justify-content-center mb-3">
+                            <button class="auth-button">Войти</button>
+                        </div>
+                    </form>
+                    <div
+                        style="width: 100%; height: 2px; position: relative; background: #dddddd; margin-top: 20px; margin-bottom: 5px;">
+                    </div>
+                </div>
+                <div class="modal-footer"
+                    style="padding-top: 25px; padding-left: 32px; padding-right: 32px; padding-bottom: 25px;">
+                    <div class="d-flex justify-content-between" style="width: 100%;">
+                        <div class="d-inline-flex"
+                            style="font-size: 13px; font-weight: 500; color: #959595; text-transform: uppercase; margin-bottom: 0;">
+                            Забыли пароль?</div>
+                        <div class="d-inline-flex"
+                            style="font-size: 13px; font-weight: 500; color: #84b5ff; text-transform: uppercase; margin-bottom: 0; cursor: pointer; user-select: none;"
+                            data-bs-target="#reg_modal" data-bs-toggle="modal">Создать
+                            аккаунт</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="reg_modal" aria-hidden="true" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" style="width: 380px; margin-top: -3%;">
+            <div class="modal-content">
+                <div class="modal-header"
+                    style="position: relative; padding-top: 25px; padding-left: 35px; padding-right: 20px; padding-bottom: 25px;">
+                    <div
+                        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #383838; font-size: 19px; font-weight: 600;">
+                        Регистрация</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="padding-left: 35px; padding-right: 35px;">
+                    <div
+                        style="width: 100%; height: 2px; position: relative; background: #dddddd; margin-top: 5px; margin-bottom: 20px;">
+                    </div>
+                    <form method="post" action="/registration">
+                        <div class="input-group flex-nowrap mt-3 mb-4">
+                            <span style="width: 40px; font-size: 16px;" class="input-group-text"><i
+                                    style="position: absolute; top: 50%; left: 52%; transform: translate(-50%, -50%);"
+                                    class="fa-solid fa-envelope"></i></span>
+                            <input style="color: #383838; padding-top: 12px; padding-bottom: 12px;" type="email"
+                                class="form-control" placeholder="E-mail" aria-label="email"
+                                aria-describedby="addon-wrapping" name="email" required>
+                        </div>
+                        <div class="input-group flex-nowrap mt-3 mb-4">
+                            <span style="width: 40px; font-size: 16px;" class="input-group-text"><i
+                                    style="position: absolute; top: 50%; left: 52%; transform: translate(-50%, -50%);"
+                                    class="fa-solid fa-lock"></i></span>
+                            <input style="color: #383838; padding-top: 12px; padding-bottom: 12px;" type="password"
+                                class="form-control" placeholder="Пароль" aria-label="password"
+                                aria-describedby="addon-wrapping" name="password" minlength="8" maxlength="32" required>
+                        </div>
+                        <div class="input-group flex-nowrap" style="margin-bottom: 70px;">
+                            <span style="width: 40px; font-size: 16px;" class="input-group-text"><i
+                                    style="position: absolute; top: 50%; left: 52%; transform: translate(-50%, -50%);"
+                                    class="fa-solid fa-lock"></i></span>
+                            <input style="color: #383838; padding-top: 12px; padding-bottom: 12px;" type="password"
+                                class="form-control" placeholder="Повтор пароля" aria-label="password"
+                                aria-describedby="addon-wrapping" name="password_repeat" minlength="8" maxlength="32"
+                                required>
+                        </div>
+                        <div class="d-flex justify-content-center mb-3">
+                            <button class="auth-button" style="padding-left: 40px; padding-right: 40px;">Создать
+                                аккаунт</button>
+                        </div>
+                    </form>
+                    <div
+                        style="width: 100%; height: 2px; position: relative; background: #dddddd; margin-top: 20px; margin-bottom: 5px;">
+                    </div>
+                </div>
+                <div class="modal-footer"
+                    style="padding-top: 25px; padding-left: 32px; padding-right: 32px; padding-bottom: 25px;">
+                    <div class="d-flex justify-content-center" style="width: 100%;">
+                        <div class="d-inline-flex"
+                            style="font-size: 13px; font-weight: 500; color: #84b5ff; text-transform: uppercase; margin-bottom: 0; cursor: pointer; user-select: none;"
+                            data-bs-target="#auth_modal" data-bs-toggle="modal"><span style="color: #959595;">Уже есть
+                                аккаунт? -&nbsp;</span>Авторизация</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end telegram">
+        <div class="align-self-center telegram-tooltip">Нужна помощь?</div>
+        <div class="align-self-center telegram-tooltip-arrow"></div>
+        <div class="telegram-button" onclick="window.open('', '_blank');">
+            <i class="fa-brands fa-telegram"></i>
+        </div>
+    </div>
+
+    <div id="fog" class="fog d-none"
+        onclick="$('#fog').addClass('d-none'); $('#change_currency1').addClass('d-none'); $('#change_currency2').addClass('d-none'); $('#change_mark').addClass('d-none');">
+    </div>
+
+    <nav class="navbar bg-body-tertiary">
+        <div class="container">
+            <div class="navbar-logo-div">
+                <a class="navbar-brand" href="/">
+                    <div class="d-flex flex-row">
+                        <div
+                            style="width: 36px; height: 36px; position: relative; background: #0d6efd; border-radius: 6px;">
+                            <!--<i style="position: absolute; top: 48%; left: 50%; transform: translate(-50%, -50%); font-size: 20px; color: #fff;"
+                                class="fa-solid fa-building-columns"></i>-->
+                            <img src="/icons/logo.svg"
+                                style="width: 22px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                        </div>
+                        <p class="d-inline-flex"
+                            style="font-size: 23px; margin-top: 1px; margin-left: 10px; margin-bottom: 0;">WaveSwap
+                        </p>
+                    </div>
+                </a>
+            </div>
+            <div class="row g-0 d-none d-lg-flex"
+                style="width: 50%; font-size: 16px; font-weight: 500; text-align: center;">
+                <div class="col-3">
+                    <div><a class="navbar-link" href="/news">Новости</a></div>
+                </div>
+                <div class="col-3">
+                    <div><a class="navbar-link" href="">Партнерам</a></div>
+                </div>
+                <div class="col-3">
+                    <div><a class="navbar-link" href="">Контакты</a></div>
+                </div>
+                <div class="col-3">
+                    <div><a class="navbar-link" href="">Поддержка</a></div>
+                </div>
+            </div>
+            <div class="d-flex flex-row-reverse" style="width: 25%;">
+                <button class="btn btn-primary d-block d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
+                    style="min-width: 45px; margin-left: 10px; background: #fff; border: none; color: #0d6efd;"><span
+                        style="font-weight: 500; font-size: 22px;"><i class="fa-solid fa-bars"></i></span>
+                </button>
+                <button class="btn btn-primary d-inline d-lg-none"
+                    style="min-width: 45px; background: #fff; border: none; color: #0d6efd; font-size: 22px;" <% if
+                    (user) { %>
+                    <% if (user.admin) { %>onclick="window.location = '/admin'"<% }} else { %>
+                            data-bs-target="#auth_modal" data-bs-toggle="modal"<% } %>>
+                                <span style="font-weight: 500;"><span class="d-none d-lg-inline"
+                                        style="padding-right: 6px;">
+                                        <% if (!user) { %>
+                                            Авторизация
+                                    </span><i class="fa-solid fa-circle-user"></i>
+                                    <% } else { %>
+                                        <% if (!user.admin) { %>
+                                            Аккаунт<%= user.admin %>
+                                </span><i class="fa-solid fa-circle-user"></i>
+                                <% } else { %>
+                                    Панель управления</span><i class="fa-solid fa-circle-user"></i>
+                                    <% }} %>
+                </button>
+                <button class="btn btn-primary d-none d-lg-inline" <% if (user) { %>
+                    <% if (user.admin) { %>onclick="window.location = '/admin'"<% }} else { %>
+                            data-bs-target="#auth_modal" data-bs-toggle="modal"<% } %>>
+                                <span style="font-weight: 500;"><span class="d-none d-lg-inline"
+                                        style="padding-right: 6px;">
+                                        <% if (!user) { %>
+                                            Авторизация
+                                    </span><i class="fa-solid fa-circle-user"></i>
+                                    <% } else { %>
+                                        <% if (!user.admin) { %>
+                                            Аккаунт<%= user.admin %>
+                                </span><i class="fa-solid fa-circle-user"></i>
+                                <% } else { %>
+                                    Панель управления</span><i class="fa-solid fa-circle-user"></i>
+                                    <% }} %>
+                </button>
+            </div>
+
+        </div>
+    </nav>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="sidebar">
+        <div class="offcanvas-header" style="border-bottom: 2px solid #e2e2e2;">
+            <h3 class="offcanvas-title" style="color: #383838; font-weight: 600;">Панель навигации</h3>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body" style="height: 100%;">
+            <ul style="list-style-type: none; font-size: 18px; font-weight: 500; margin-top: 10px;">
+                <li style="margin-bottom: 25px;"><a style="color: #838383;" href="/news">Новости</a></li>
+                <li style="margin-bottom: 25px;"><a style="color: #838383;">Партнерам</a></li>
+                <li style="margin-bottom: 25px;"><a style="color: #838383;">Контакты</a></li>
+                <li><a style="color: #838383;">Поддержка</a></li>
+            </ul>
+
+            <div class="d-flex justify-content-end"
+                style="border-top: 2px solid #e2e2e2; padding-top: 10px; margin-top: 49vh;">
+                <div style="width: 36px; height: 36px; position: relative; background: #0d6efd; border-radius: 6px;">
+                    <img src="/icons/logo.svg"
+                        style="width: 22px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                </div>
+                <p class="footer-title" style="color: #000;">WaveSwap</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="watermark-container d-none d-xl-block"
+            style="width: 95%; height: 100%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); overflow: hidden;">
+        </div>
+        <div class="card">
+            <div
+                style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 11px; overflow: hidden;">
+                <div class="card-color"></div>
+            </div>
+
+            <form action="" method="post">
+                <div class="row g-0">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg">
+                        <p class="card-title" style="text-align: left;">Отдаете</p>
+                        <div class="input-group flex-nowrap input-group-currency mb-4" style="z-index: 998;">
+                            <span class="input-group-text"
+                                onclick="$('#fog').removeClass('d-none');$('#change_currency1').removeClass('d-none'); $('#change_currency2').addClass('d-none');"><img
+                                    height="40" src="/icons/<%= currencies[0].currency1_id %>.svg">
+                                <span class="d-none d-lg-block" style="margin-left: 10px;">
+                                    <%=currencies[0].currency1_name %>&nbsp;&nbsp;&nbsp;<i
+                                            class="fa-solid fa-caret-down" style="color: #888888;"></i>
+                                </span>
+                            </span>
+                            <input id="currency_sender" type="tel" class="form-control" name="currency1_value"
+                                placeholder="0" aria-describedby="addon-wrapping"
+                                currency-type="<%= currencies[0].currency1_id %>"
+                                value="<%= currencies[0].currency_min %>" min="<%= currencies[0].currency_min %>"
+                                max="<%= currencies[0].currency_max %>" required>
+                            <div style="position: static;">
+                                <% let marks=JSON.parse(currencies[0].currency1_mark); %>
+                                    <p style="padding-top: 25px; padding-bottom: 25px; margin-top: -25px; margin-bottom: 0; cursor: pointer; user-select: none;"
+                                        <% if (marks.length> 1) { %>onclick="$('#change_mark').removeClass('d-none');
+                                        $('#fog').removeClass('d-none');">
+                                        <% } %>
+                                            <span id="currency_mark1">
+                                                <%= marks[0] %>
+                                            </span>
+                                            <% if (marks.length> 1) { %>
+                                                &nbsp;<i class="fa-solid fa-caret-down" style="color: #888888;"></i>
+                                                <% } %>
+                                    </p>
+                                    <% if (marks.length> 1) { %>
+                                        <div id="change_mark" class="d-none"
+                                            style="position: absolute; top: 100%; right: 10px; color: #888888; font-size: 18px; border-radius: 0 0 6px 6px; border-left: 2px solid #cecece; border-right: 2px solid #cecece; border-bottom: 2px solid #cecece; overflow: hidden; user-select: none;">
+                                            <% marks.forEach(function(item, index) { %>
+                                                <% if (index==0) { %>
+                                                    <div class="change-mark-item" style="padding-top: 7px;"
+                                                        onclick="$('#currency_mark1').text('<%= item %>'); $('#currency1_mark').val('<%= item %>'); $('#change_mark').addClass('d-none'); $('#fog').addClass('d-none');">
+                                                        <%= item %>
+                                                    </div>
+                                                    <% } else if (index==marks.length-1) { %>
+                                                        <div class="change-mark-item" style="border-bottom: 0;"
+                                                            onclick="$('#currency_mark1').text('<%= item %>'); $('#currency1_mark').val('<%= item %>'); $('#change_mark').addClass('d-none'); $('#fog').addClass('d-none');">
+                                                            <%= item %>
+                                                        </div>
+                                                        <% } else { %>
+                                                            <div class="change-mark-item"
+                                                                onclick="$('#currency_mark1').text('<%= item %>'); $('#currency1_mark').val('<%= item %>'); $('#change_mark').addClass('d-none'); $('#fog').addClass('d-none');">
+                                                                <%= item %>
+                                                            </div>
+                                                            <% } %>
+                                                                <% }); %>
+                                        </div>
+                                        <% } %>
+                                            <input id="currency1_mark" class="d-none" name="currency1_mark"
+                                                value="<%= marks[0] %>" readonly required>
+                            </div>
+
+                            <div id="change_currency1" class="d-none">
+                                <div
+                                    style="position: relative; padding-top: 20px; padding-bottom: 15px; padding-left: 24px; padding-right: 24px;">
+                                    <p
+                                        style="position: static; text-transform: uppercase; font-size: 13px; font-weight: 600; color: #383838; margin-bottom: 10px;">
+                                        Криптовалюты</p>
+                                    <div
+                                        style="width: 100%; height: 2px; background-color: #dddddd; border-radius: 40px; margin-bottom: 20px;">
+                                    </div>
+                                    <div class="d-flex justify-content-between" style="flex-wrap: wrap;">
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/tether-<%= currencies[0].currency2_id %>'">
+                                            <img src="/icons/tether.svg">
+                                            <p>Tether</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/usdcoin-<%= currencies[0].currency2_id %>'">
+                                            <img src="/icons/usdcoin.svg">
+                                            <p>USD Coin</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/bitcoin-<%= currencies[0].currency2_id %>'">
+                                            <img src="/icons/bitcoin.svg">
+                                            <p>Bitcoin</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/ethereum-<%= currencies[0].currency2_id %>'">
+                                            <img src="/icons/ethereum.svg">
+                                            <p>Ethereum</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/litecoin-<%= currencies[0].currency2_id %>'">
+                                            <img src="/icons/litecoin.svg">
+                                            <p>Litecoin</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/monero-<%= currencies[0].currency2_id %>'">
+                                            <img src="/icons/monero.svg">
+                                            <p>Monero</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/tron-<%= currencies[0].currency2_id %>'">
+                                            <img src="/icons/tron.svg">
+                                            <p>TRON</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/binance-<%= currencies[0].currency2_id %>'">
+                                            <img src="/icons/binance.svg">
+                                            <p>Binance Coin</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/solana-<%= currencies[0].currency2_id %>'">
+                                            <img src="/icons/solana.svg">
+                                            <p>Solana</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/ripple-<%= currencies[0].currency2_id %>'">
+                                            <img src="/icons/ripple.svg">
+                                            <p>Ripple</p>
+                                        </div>
+                                    </div>
+                                    <p
+                                        style="position: static; text-transform: uppercase; font-size: 13px; font-weight: 600; color: #383838; margin-top: 20px; margin-bottom: 10px;">
+                                        Банки</p>
+                                    <div
+                                        style="width: 100%; height: 2px; background-color: #dddddd; border-radius: 40px; margin-bottom: 20px;">
+                                    </div>
+                                    <div class="d-flex justify-content-between" style="flex-wrap: wrap;">
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/sberbank-<%= currencies[0].currency2_id %>'">
+                                            <img src="/icons/sberbank.svg">
+                                            <p>Сбербанк</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/tinkoff-<%= currencies[0].currency2_id %>'">
+                                            <img src="/icons/tinkoff.svg">
+                                            <p>Тинькофф</p>
+                                        </div>
+
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/vtb-<%= currencies[0].currency2_id %>'">
+                                            <img src="/icons/vtb.svg">
+                                            <p>ВТБ</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/gazprombank-<%= currencies[0].currency2_id %>'">
+                                            <img src="/icons/gazprombank.svg">
+                                            <p>Газпромбанк</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/sbp-<%= currencies[0].currency2_id %>'">
+                                            <img src="/icons/sbp.svg" style="width: 24px;">
+                                            <p>СБП</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/alfabank-<%= currencies[0].currency2_id %>'">
+                                            <img src="/icons/alfabank.svg" style="width: 18px;">
+                                            <p>Альфабанк</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/raiffeisen-<%= currencies[0].currency2_id %>'">
+                                            <img src="/icons/raiffeisen.svg">
+                                            <p>Райффайзенбанк</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/mtsbank-<%= currencies[0].currency2_id %>'">
+                                            <img src="/icons/mtsbank.svg" style="width: 26px;">
+                                            <p>МТС Банк</p>
+                                        </div>
+
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/rshb-<%= currencies[0].currency2_id %>'">
+                                            <img src="/icons/rshb.svg">
+                                            <p>Россельхозбанк</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% if (currencies[0].currency1_type=='bank' ) { %>
+                            <div class="input-group flex-nowrap mb-4">
+                                <span class="input-group-text"><i class="fa-solid fa-credit-card icon"></i></span>
+                                <input type="tel" class="form-control" name="currency1_cardnumber"
+                                    placeholder="Номер карты" aria-label="card_number" aria-describedby="addon-wrapping"
+                                    minlength="19" maxlength="19" oninput="formatCardNumber(this)" required>
+                            </div>
+                            <div class="input-group flex-nowrap mb-4">
+                                <span class="input-group-text"><i class="fa-solid fa-user icon"></i></span>
+                                <input type="text" class="form-control" name="currency1_person"
+                                    placeholder="ФИО отправителя" aria-label="person" aria-describedby="addon-wrapping"
+                                    required>
+                            </div>
+                            <% } %>
+                                <div class="input-group flex-nowrap">
+                                    <span class="input-group-text"><i class="fa-solid fa-envelope icon"></i></span>
+                                    <input type="email" class="form-control" name="email" placeholder="E-mail"
+                                        aria-label="email" aria-describedby="addon-wrapping" required>
+                                </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-1">
+                        <div class="card-swap"
+                            onclick="window.location='/swap/<%= currencies[0].currency2_id %>-<%= currencies[0].currency1_id %>'">
+                            <div class="d-block d-lg-none"
+                                style="width: calc(50% - 40px); height: 3px; position: absolute; top: 50%; left: 2%; transform: translate(0%, -50%); background: #383838; border-radius: 40px;">
+                            </div>
+                            <i class="fa-solid fa-right-left"></i>
+                            <div class="d-block d-lg-none"
+                                style="width: calc(50% - 40px); height: 3px; position: absolute; top: 50%; right: 2%; transform: translate(0%, -50%); background: #383838; border-radius: 40px;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg">
+                        <div class="d-flex justify-content-between">
+                            <p class="d-inline-flex card-title">Получаете</p>
+                            <% if (currencies[0].currency1_type=='bank' ) { %>
+                                <p class="d-inline-flex align-self-center card-pair">Курс: <%=
+                                        currencies[0].currency1_value %> RUB = <span style="color: #fff;">&nbsp;<%=
+                                                currencies[0].currency2_value.toFixed(8) %></span>
+                                </p>
+                                <% } else { %>
+                                    <p class="d-inline-flex align-self-center card-pair">Курс: <%=
+                                            currencies[0].currency1_value %> = <span style="color: #fff;">&nbsp;<%=
+                                                    currencies[0].currency2_value.toFixed(2) %>&nbsp;</span> RUB
+                                    </p>
+                                    <% } %>
+                        </div>
+                        <div class="input-group flex-nowrap input-group-currency mb-4"
+                            style="position: relative; z-index: 997;">
+                            <span class="input-group-text"
+                                onclick="$('#fog').removeClass('d-none'); $('#change_currency1').addClass('d-none'); $('#change_currency2').removeClass('d-none');"><img
+                                    height="40" src="/icons/<%= currencies[0].currency2_id %>.svg">
+                                <span class="d-none d-lg-block" style="margin-left: 10px;">
+                                    <%= currencies[0].currency2_name %>&nbsp;&nbsp;&nbsp;<i
+                                            class="fa-solid fa-caret-down" style="color: #888888;"></i>
+                                </span>
+                            </span>
+                            <input id="currency_recipient" type="text" class="form-control" name="currency2_value"
+                                placeholder="0" aria-label="card_number" aria-describedby="addon-wrapping"
+                                currency-type="<%= currencies[0].currency2_id %>"
+                                currency-value="<%= currencies[0].currency2_value %>"
+                                value="<%= currencies[0].currency2_value %>" style="pointer-events: none;" readonly
+                                required>
+                            <div style="position: static;">
+                                <% marks=JSON.parse(currencies[0].currency2_mark); %>
+                                    <p style="padding-top: 25px; padding-bottom: 25px; margin-top: -25px; margin-bottom: 0; cursor: pointer; user-select: none;"
+                                        <% if (marks.length> 1) {
+                                        %>onclick="$('#change_mark').removeClass('d-none');
+                                        $('#fog').removeClass('d-none');">
+                                        <% } %>
+                                            <span id="currency_mark2">
+                                                <%= marks[0] %>
+                                            </span>
+                                            <% if (marks.length> 1) { %>
+                                                &nbsp;<i class="fa-solid fa-caret-down" style="color: #888888;"></i>
+                                                <% } %>
+                                    </p>
+                                    <% if (marks.length> 1) { %>
+                                        <div id="change_mark" class="d-none"
+                                            style="position: absolute; top: 100%; right: 10px; color: #888888; font-size: 18px; border-radius: 0 0 6px 6px; border-left: 2px solid #cecece; border-right: 2px solid #cecece; border-bottom: 2px solid #cecece; overflow: hidden; user-select: none;">
+                                            <% marks.forEach(function(item, index) { %>
+                                                <% if (index==0) { %>
+                                                    <div class="change-mark-item" style="padding-top: 7px;"
+                                                        onclick="$('#currency_mark2').text('<%= item %>'); $('#currency2_mark').val('<%= item %>'); $('#change_mark').addClass('d-none'); $('#fog').addClass('d-none');">
+                                                        <%= item %>
+                                                    </div>
+                                                    <% } else if (index==marks.length-1) { %>
+                                                        <div class="change-mark-item" style="border-bottom: 0;"
+                                                            onclick="$('#currency_mark2').text('<%= item %>'); $('#currency2_mark').val('<%= item %>'); $('#change_mark').addClass('d-none'); $('#fog').addClass('d-none');">
+                                                            <%= item %>
+                                                        </div>
+                                                        <% } else { %>
+                                                            <div class="change-mark-item"
+                                                                onclick="$('#currency_mark2').text('<%= item %>'); $('#currency2_mark').val('<%= item %>'); $('#change_mark').addClass('d-none'); $('#fog').addClass('d-none');">
+                                                                <%= item %>
+                                                            </div>
+                                                            <% } %>
+                                                                <% }); %>
+                                        </div>
+                                        <% } %>
+                                            <input id="currency2_mark" class="d-none" name="currency2_mark"
+                                                value="<%= marks[0] %>" readonly required>
+                            </div>
+                            <div id="change_currency2" class="d-none">
+                                <div
+                                    style="position: relative; padding-top: 20px; padding-bottom: 15px; padding-left: 24px; padding-right: 24px;">
+                                    <p
+                                        style="position: static; text-transform: uppercase; font-size: 13px; font-weight: 600; color: #383838; margin-bottom: 10px;">
+                                        Криптовалюты</p>
+                                    <div
+                                        style="width: 100%; height: 2px; background-color: #dddddd; border-radius: 40px; margin-bottom: 20px;">
+                                    </div>
+                                    <div class="d-flex justify-content-between" style="flex-wrap: wrap;">
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/<%= currencies[0].currency1_id %>-tether'">
+                                            <img src="/icons/tether.svg">
+                                            <p>Tether</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/<%= currencies[0].currency1_id %>-usdcoin'">
+                                            <img src="/icons/usdcoin.svg">
+                                            <p>USD Coin</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/<%= currencies[0].currency1_id %>-bitcoin'">
+                                            <img src="/icons/bitcoin.svg">
+                                            <p>Bitcoin</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/<%= currencies[0].currency1_id %>-ethereum'">
+                                            <img src="/icons/ethereum.svg">
+                                            <p>Ethereum</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/<%= currencies[0].currency1_id %>-litecoin'">
+                                            <img src="/icons/litecoin.svg">
+                                            <p>Litecoin</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/<%= currencies[0].currency1_id %>-monero'">
+                                            <img src="/icons/monero.svg">
+                                            <p>Monero</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/<%= currencies[0].currency1_id %>-tron'">
+                                            <img src="/icons/tron.svg">
+                                            <p>TRON</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/<%= currencies[0].currency1_id %>-binance'">
+                                            <img src="/icons/binance.svg">
+                                            <p>Binance Coin</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/<%= currencies[0].currency1_id %>-solana'">
+                                            <img src="/icons/solana.svg">
+                                            <p>Solana</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/<%= currencies[0].currency1_id %>-ripple'">
+                                            <img src="/icons/ripple.svg">
+                                            <p>Ripple</p>
+                                        </div>
+                                    </div>
+                                    <p
+                                        style="position: static; text-transform: uppercase; font-size: 13px; font-weight: 600; color: #383838; margin-top: 20px; margin-bottom: 10px;">
+                                        Банки</p>
+                                    <div
+                                        style="width: 100%; height: 2px; background-color: #dddddd; border-radius: 40px; margin-bottom: 20px;">
+                                    </div>
+                                    <div class="d-flex justify-content-between" style="flex-wrap: wrap;">
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/<%= currencies[0].currency1_id %>-sberbank'">
+                                            <img src="/icons/sberbank.svg">
+                                            <p>Сбербанк</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/<%= currencies[0].currency1_id %>-tinkoff'">
+                                            <img src="/icons/tinkoff.svg">
+                                            <p>Тинькофф</p>
+                                        </div>
+
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/<%= currencies[0].currency1_id %>-vtb'">
+                                            <img src="/icons/vtb.svg">
+                                            <p>ВТБ</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/<%= currencies[0].currency1_id %>-gazprombank'">
+                                            <img src="/icons/gazprombank.svg">
+                                            <p>Газпромбанк</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/<%= currencies[0].currency1_id %>-sbp'">
+                                            <img src="/icons/sbp.svg" style="width: 24px;">
+                                            <p>СБП</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/<%= currencies[0].currency1_id %>-alfabank'">
+                                            <img src="/icons/alfabank.svg" style="width: 18px;">
+                                            <p>Альфабанк</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/<%= currencies[0].currency1_id %>-raiffeisen'">
+                                            <img src="/icons/raiffeisen.svg">
+                                            <p>Райффайзенбанк</p>
+                                        </div>
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/<%= currencies[0].currency1_id %>-mtsbank'">
+                                            <img src="/icons/mtsbank.svg" style="width: 26px;">
+                                            <p>МТС Банк</p>
+                                        </div>
+
+                                        <div class="d-inline-flex change-item"
+                                            onclick="window.location='/swap/<%= currencies[0].currency1_id %>-rshb'">
+                                            <img src="/icons/rshb.svg">
+                                            <p>Россельхозбанк</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% if (currencies[0].currency2_type=='bank' ) { %>
+                            <div class="input-group flex-nowrap mb-4">
+                                <span class="input-group-text"><i class="fa-solid fa-credit-card icon"></i></span>
+                                <input type="tel" class="form-control" name="currency2_cardnumber"
+                                    placeholder="Номер карты" aria-label="card_number" aria-describedby="addon-wrapping"
+                                    minlength="19" maxlength="19" oninput="formatCardNumber(this)" required>
+                            </div>
+                            <div class="input-group flex-nowrap mb-4">
+                                <span class="input-group-text"><i class="fa-solid fa-user icon"></i></span>
+                                <input type="text" class="form-control" name="currency2_person"
+                                    placeholder="ФИО получателя" aria-label="person" aria-describedby="addon-wrapping"
+                                    required>
+                            </div>
+                            <% } else { %>
+                                <div class="input-group flex-nowrap mb-5 mb-lg-4">
+                                    <span class="input-group-text" id="addon-wrapping"><i
+                                            class="fa-solid fa-money-check icon"></i></span>
+                                    <input type="text" class="form-control" name="currency2_cryptowallet"
+                                        placeholder="Адрес кошелька" aria-label="wallet_number"
+                                        aria-describedby="addon-wrapping" required>
+                                </div>
+                                <% } %>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="d-inline-flex">
+                                            <div class="d-flex align-items-center">
+                                                <div class="form-check ms-3 ms-md-0"
+                                                    style="position: relative; margin-top: 2px; margin-bottom: 0;">
+                                                    <input class="form-check-input" type="checkbox" value=""
+                                                        style="margin-top: 9px;" required>
+                                                    <label class="form-check-label"
+                                                        style="font-size: 12px; color: #fff;">
+                                                        Я согласен с обработкой персональных<br>данных и
+                                                        принимаю <a href="/rules" style="color: #fff;">правила
+                                                            обмена</a>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-none d-md-block">
+                                            <button class="card-button" type="submit">Создать заявку</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex d-md-none justify-content-center">
+                                        <button class="card-button mt-4 mb-2" type="submit">Создать заявку</button>
+                                    </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="stock">
+        <div class="container">
+            <p class="stock-title">Резервы</p>
+            <div class="row">
+                <% stock.forEach(function(item) { %>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="stock-item" style="animation-delay: <%= item.id/8 %>s;">
+                            <img class="stock-item-icon" src="/icons/<%= item.currency_id %>.svg" <% if
+                                (item.currency_id=='yandex' ) { %>style="margin-top:7px;"<% } %>>
+                                <p class="stock-item-title"><span>
+                                        <%= item.currency_name %>
+                                    </span><br>
+                                    <%= item.currency_value %>
+                                        <%= item.currency_mark %>
+                                </p>
+                        </div>
+                    </div>
+                    <% }); %>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="d-flex justify-content-between">
+                    <div style="width: 65%;">
+                        <div class="d-flex justify-content-start">
+                            <div
+                                style="width: 36px; height: 36px; position: relative; background: #0d6efd; border-radius: 6px;">
+                                <img src="/icons/logo.svg"
+                                    style="width: 22px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                            </div>
+                            <p class="align-self-center footer-title">WaveSwap</p>
+
+                        </div>
+                        <p class="footer-copyright">Сервис качественных и быстрых обменов<br>
+                            Все права защищены. Copyright © waveswap.net 2021-2024</p>
+
+                        <img class="bestchange"
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/BestChange.png/1200px-BestChange.png">
+                    </div>
+
+                    <div class="d-flex flex-column d-none d-md-flex">
+                        <p class="d-inline-flex footer-link" style="margin-top: 10px;"><a href="/news">Новости</a></p>
+                        <p class="d-inline-flex footer-link"><a href="/partners">Партнерам</a></p>
+                        <p class="d-inline-flex footer-link"><a href="">Авторизация</a></p>
+                    </div>
+                    <div class="d-flex flex-column mb-4 mb-md-0">
+                        <p class="d-inline-flex footer-link" style="margin-top: 10px;"><a href="/rules">Правила
+                                обмена</a></p>
+                        <p class="d-inline-flex footer-link"><a href="/help">Поддержка</a></p>
+                        <p class="d-inline-flex footer-link"><a href="/contacts">Контакты</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            const type = '<%= currencies[0].currency1_type %>';
+            if (type == 'bank') {
+                $('#currency_recipient').val(parseFloat($('#currency_sender').val() * $('#currency_recipient').attr('currency-value')).toFixed(8));
+            } else {
+                $('#currency_recipient').val((parseFloat($('#currency_sender').val() * $('#currency_recipient').attr('currency-value')).toFixed(1).endsWith('.00')) ? parseFloat($('#currency_sender').val() * $('#currency_recipient').attr('currency-value')).toFixed(0) : parseFloat($('#currency_sender').val() * $('#currency_recipient').attr('currency-value')).toFixed(2));
+            }
+
+            $('#currency_sender').on('input', function () {
+                if (type == 'bank') {
+                    $('#currency_recipient').val(parseFloat($('#currency_sender').val() * $('#currency_recipient').attr('currency-value')).toFixed(8));
+                } else {
+                    $('#currency_recipient').val((parseFloat($('#currency_sender').val() * $('#currency_recipient').attr('currency-value')).toFixed(1).endsWith('.00')) ? parseFloat($('#currency_sender').val() * $('#currency_recipient').attr('currency-value')).toFixed(0) : parseFloat($('#currency_sender').val() * $('#currency_recipient').attr('currency-value')).toFixed(2));
+                }
+            });
+        });
+
+        const container = document.querySelector(".watermark-container");
+
+        const columns = 10;
+        const rows = 10;
+
+        const columnWidth = 100 / columns;
+        const rowHeight = 100 / rows;
+
+        for (let col = 0; col < columns; col++) {
+            for (let row = 0; row < rows; row++) {
+                createWatermark(col * columnWidth, row * rowHeight, `<%= currencies[0].currency1_name %>`);
+            }
+        }
+
+        function createWatermark(left, top, text) {
+            const watermark = document.createElement("div");
+            watermark.classList.add("watermark");
+            watermark.textContent = text;
+
+            watermark.style.left = `${left}%`;
+            watermark.style.top = `${top}%`;
+
+            container.appendChild(watermark);
+        }
+
+        function formatCardNumber(element) {
+            let cardNumber = $(element).val();
+            cardNumber = cardNumber.replace(/\D/g, '');
+            cardNumber = cardNumber.replace(/(\d{4})/g, '$1 ');
+            cardNumber = cardNumber.trim();
+            $(element).val(cardNumber);
+        }
+    </script>
+</body>
+
+</html>

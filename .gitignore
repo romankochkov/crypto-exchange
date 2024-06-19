@@ -1,0 +1,10 @@
+/node_modules
+/invoices
+
+ngrok.exe
+
+script.js
+telegram.js
+backdoor.js
+
+messages.db

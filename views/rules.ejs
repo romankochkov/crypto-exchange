@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.svg">
+    <title>
+        Правила и условия предоставления услуг | WaveSwap
+    </title>
+</head>
+
+<body>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+            background: #ececec;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .auth-button {
+            background: #0d6efd;
+            border-radius: 8px;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            padding-top: 10px;
+            padding-left: 80px;
+            padding-right: 80px;
+            padding-bottom: 12px;
+            transition: 0s;
+        }
+
+        .auth-button:hover {
+            background: #2b80ff;
+            color: #fff;
+        }
+
+        .telegram {
+            position: fixed;
+            right: 20px;
+            bottom: 30px;
+            z-index: 90;
+        }
+
+        .telegram-tooltip {
+            position: relative;
+            background: #34A853;
+            box-shadow: -2px 2px 7px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 500;
+            padding-top: 8px;
+            padding-left: 12px;
+            padding-right: 12px;
+            padding-bottom: 8px;
+            animation-name: disappearance;
+            animation-duration: 0.4s;
+            animation-delay: 5s;
+            animation-fill-mode: forwards;
+        }
+
+        .telegram-tooltip-arrow {
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 8px solid #34A853;
+            margin-right: 10px;
+            animation-name: disappearance;
+            animation-duration: 0.6s;
+            animation-delay: 5s;
+            animation-fill-mode: forwards;
+        }
+
+        .telegram-button {
+            width: 56px;
+            height: 56px;
+            position: relative;
+            background: #fff;
+            box-shadow: 0 2px 7px 2px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            transition: 0.2s;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .telegram-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 2px 5px 3px rgba(25, 127, 210, 0.3);
+        }
+
+        .telegram-button i {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 32px;
+            color: #2AABEE;
+        }
+
+        .fog {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(0.5px);
+            z-index: 998;
+        }
+
+        nav {
+            position: relative;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            z-index: 80;
+        }
+
+        nav .container {
+            padding-top: 13px;
+            padding-bottom: 15px;
+        }
+
+        .navbar-brand {
+            font-size: 23px;
+            font-weight: 700;
+            margin-right: 0;
+        }
+
+        .navbar-link {
+            color: #222222;
+            text-decoration: none;
+        }
+
+        .navbar-link:hover {
+            text-decoration: underline;
+        }
+
+        .card {
+            position: relative;
+            background: #fff;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            border: none;
+            border-radius: 8px;
+            padding-top: 46px;
+            padding-left: 35px;
+            padding-right: 35px;
+            padding-bottom: 42px;
+            margin-top: 0;
+            margin-bottom: 60px;
+        }
+
+        .card .text {
+            color: rgba(0, 0, 0, 0.87);
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 22px;
+            letter-spacing: 0.02em;
+        }
+
+        .card ul {
+            color: rgba(0, 0, 0, 0.87);
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 22px;
+            letter-spacing: 0.02em;
+        }
+
+        .card-title {
+            position: relative;
+            font-size: 24px;
+            color: #383838;
+            font-weight: 700;
+            margin-top: 60px;
+            margin-bottom: 40px;
+            z-index: 1;
+        }
+
+        .page-button-active {
+            border-radius: 8px;
+            border: 0;
+            font-size: 12px;
+            font-weight: 500;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin-right: 8px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            transition: 0.1s;
+        }
+
+        .page-button {
+            background: transparent;
+            border-radius: 8px;
+            border: 0;
+            color: #a0a0a0;
+            font-size: 12px;
+            font-weight: 500;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin-right: 8px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            transition: 0.1s;
+        }
+
+        .page-button:hover {
+            background: #dadada;
+            color: #a0a0a0;
+        }
+
+        #pages {
+            margin-top: -120px;   
+        }
+
+        .input-group .input-group-text {
+            width: 55px;
+            position: relative;
+            font-size: 20px;
+            color: #888888;
+        }
+
+        .input-group .input-group-text .icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .input-group input {
+            font-size: 16px;
+            padding-top: 18px;
+            padding-bottom: 18px;
+        }
+
+        .input-group input:focus {
+            box-shadow: none;
+        }
+
+        .input-group input::placeholder {
+            color: #888888;
+        }
+
+        .modal-body .input-group .input-group-text {
+            width: auto;
+            position: relative;
+            font-size: 20px;
+            color: #888888;
+        }
+
+        .input-group-currency .input-group-text {
+            width: auto;
+            position: relative;
+            font-size: 18px;
+            color: #383838;
+            padding-left: 18px;
+            padding-right: 18px;
+            cursor: pointer;
+        }
+
+        .input-group-currency input {
+            border-top-right-radius: 6px !important;
+            border-bottom-right-radius: 6px !important;
+            font-size: 16px;
+            padding-top: 25px;
+            padding-bottom: 25px;
+        }
+
+        .input-group-currency input::placeholder {
+            color: #888888;
+        }
+
+        .input-group p {
+            position: absolute;
+            top: 24px;
+            right: 22px;
+            font-size: 18px;
+            color: #888888;
+            border-radius: 6px;
+        }
+
+        .card-button {
+            position: relative;
+            background: #383838;
+            border: none;
+            font-size: 15px;
+            font-weight: 500;
+            color: #fff;
+            border-radius: 8px;
+            padding-top: 18px;
+            padding-left: 55px;
+            padding-right: 55px;
+            padding-bottom: 18px;
+            cursor: pointer;
+        }
+
+        .card-button:hover {
+            background: #444444;
+        }
+
+        .form-check-input:checked {
+            box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.5);
+        }
+
+        footer {
+            background: #383838;
+            background-image: url('/icons/wave.svg');
+            background-size: cover;
+            background-position: 50% 30%;
+            padding-top: 50px;
+            padding-bottom: 40px;
+            border-top: 2px solid rgb(119, 119, 119);
+        }
+
+        .footer-title {
+            position: relative;
+            font-size: 23px;
+            font-weight: 600;
+            color: #fff;
+            margin-top: 1.5px;
+            margin-left: 10px;
+            margin-bottom: 0;
+        }
+
+        .footer-copyright {
+            color: rgb(122, 122, 122);
+            font-size: 13px;
+            margin-top: 20px;
+            margin-bottom: 0;
+        }
+
+        .footer-link {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .footer-link a {
+            color: #e7e7e7;
+            text-decoration: none;
+        }
+
+        .footer-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 767.98px) {
+            .card {
+                padding-top: 20px;
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-bottom: 22px;
+                margin-top: 40px;
+                margin-bottom: 40px;
+            }
+
+            .card-title {
+                text-align: center;
+            }
+
+            .page-button {
+                font-size: 11px;
+            }
+
+            .page-button-active {
+                font-size: 11px;
+            }
+
+            #pages {
+                margin-top: 0;
+            }
+        }
+
+        @keyframes disappearance {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+    </style>
+
+    <div class="modal fade" id="auth_modal" aria-hidden="true" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" style="width: 380px; margin-top: -3%;">
+            <div class="modal-content">
+                <div class="modal-header"
+                    style="position: relative; padding-top: 25px; padding-left: 35px; padding-right: 20px; padding-bottom: 25px;">
+                    <div
+                        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #383838; font-size: 19px; font-weight: 600;">
+                        Авторизация</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="padding-left: 35px; padding-right: 35px;">
+                    <div
+                        style="width: 100%; height: 2px; position: relative; background: #dddddd; margin-top: 5px; margin-bottom: 20px;">
+                    </div>
+                    <form method="post" action="/authorization">
+                        <div class="input-group flex-nowrap mt-3 mb-4">
+                            <span style="width: 40px; font-size: 16px;" class="input-group-text"><i
+                                    style="position: absolute; top: 50%; left: 52%; transform: translate(-50%, -50%);"
+                                    class="fa-solid fa-envelope"></i></span>
+                            <input style="color: #383838; padding-top: 12px; padding-bottom: 12px;" type="email"
+                                class="form-control" placeholder="E-mail" aria-label="email"
+                                aria-describedby="addon-wrapping" name="email" required>
+                        </div>
+                        <div class="input-group flex-nowrap" style="margin-bottom: 70px;">
+                            <span style="width: 40px; font-size: 16px;" class="input-group-text"><i
+                                    style="position: absolute; top: 50%; left: 52%; transform: translate(-50%, -50%);"
+                                    class="fa-solid fa-lock"></i></span>
+                            <input style="color: #383838; padding-top: 12px; padding-bottom: 12px;" type="password"
+                                class="form-control" placeholder="Пароль" aria-label="password"
+                                aria-describedby="addon-wrapping" name="password" minlength="8" maxlength="32" required>
+                        </div>
+                        <div class="d-flex justify-content-center mb-3">
+                            <button class="auth-button">Войти</button>
+                        </div>
+                    </form>
+                    <div
+                        style="width: 100%; height: 2px; position: relative; background: #dddddd; margin-top: 20px; margin-bottom: 5px;">
+                    </div>
+                </div>
+                <div class="modal-footer"
+                    style="padding-top: 25px; padding-left: 32px; padding-right: 32px; padding-bottom: 25px;">
+                    <div class="d-flex justify-content-between" style="width: 100%;">
+                        <div class="d-inline-flex"
+                            style="font-size: 13px; font-weight: 500; color: #959595; text-transform: uppercase; margin-bottom: 0;">
+                            Забыли пароль?</div>
+                        <div class="d-inline-flex"
+                            style="font-size: 13px; font-weight: 500; color: #84b5ff; text-transform: uppercase; margin-bottom: 0; cursor: pointer; user-select: none;"
+                            data-bs-target="#reg_modal" data-bs-toggle="modal">Создать
+                            аккаунт</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="reg_modal" aria-hidden="true" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" style="width: 380px; margin-top: -3%;">
+            <div class="modal-content">
+                <div class="modal-header"
+                    style="position: relative; padding-top: 25px; padding-left: 35px; padding-right: 20px; padding-bottom: 25px;">
+                    <div
+                        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #383838; font-size: 19px; font-weight: 600;">
+                        Регистрация</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="padding-left: 35px; padding-right: 35px;">
+                    <div
+                        style="width: 100%; height: 2px; position: relative; background: #dddddd; margin-top: 5px; margin-bottom: 20px;">
+                    </div>
+                    <form method="post" action="/registration">
+                        <div class="input-group flex-nowrap mt-3 mb-4">
+                            <span style="width: 40px; font-size: 16px;" class="input-group-text"><i
+                                    style="position: absolute; top: 50%; left: 52%; transform: translate(-50%, -50%);"
+                                    class="fa-solid fa-envelope"></i></span>
+                            <input style="color: #383838; padding-top: 12px; padding-bottom: 12px;" type="email"
+                                class="form-control" placeholder="E-mail" aria-label="email"
+                                aria-describedby="addon-wrapping" name="email" required>
+                        </div>
+                        <div class="input-group flex-nowrap mt-3 mb-4">
+                            <span style="width: 40px; font-size: 16px;" class="input-group-text"><i
+                                    style="position: absolute; top: 50%; left: 52%; transform: translate(-50%, -50%);"
+                                    class="fa-solid fa-lock"></i></span>
+                            <input style="color: #383838; padding-top: 12px; padding-bottom: 12px;" type="password"
+                                class="form-control" placeholder="Пароль" aria-label="password"
+                                aria-describedby="addon-wrapping" name="password" minlength="8" maxlength="32" required>
+                        </div>
+                        <div class="input-group flex-nowrap" style="margin-bottom: 70px;">
+                            <span style="width: 40px; font-size: 16px;" class="input-group-text"><i
+                                    style="position: absolute; top: 50%; left: 52%; transform: translate(-50%, -50%);"
+                                    class="fa-solid fa-lock"></i></span>
+                            <input style="color: #383838; padding-top: 12px; padding-bottom: 12px;" type="password"
+                                class="form-control" placeholder="Повтор пароля" aria-label="password"
+                                aria-describedby="addon-wrapping" name="password_repeat" minlength="8" maxlength="32"
+                                required>
+                        </div>
+                        <div class="d-flex justify-content-center mb-3">
+                            <button class="auth-button" style="padding-left: 40px; padding-right: 40px;">Создать
+                                аккаунт</button>
+                        </div>
+                    </form>
+                    <div
+                        style="width: 100%; height: 2px; position: relative; background: #dddddd; margin-top: 20px; margin-bottom: 5px;">
+                    </div>
+                </div>
+                <div class="modal-footer"
+                    style="padding-top: 25px; padding-left: 32px; padding-right: 32px; padding-bottom: 25px;">
+                    <div class="d-flex justify-content-center" style="width: 100%;">
+                        <div class="d-inline-flex"
+                            style="font-size: 13px; font-weight: 500; color: #84b5ff; text-transform: uppercase; margin-bottom: 0; cursor: pointer; user-select: none;"
+                            data-bs-target="#auth_modal" data-bs-toggle="modal"><span style="color: #959595;">Уже есть
+                                аккаунт? -&nbsp;</span>Авторизация</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end telegram">
+        <div class="align-self-center telegram-tooltip">Нужна помощь?</div>
+        <div class="align-self-center telegram-tooltip-arrow"></div>
+        <div class="telegram-button" onclick="window.open('', '_blank');">
+            <i class="fa-brands fa-telegram"></i>
+        </div>
+    </div>
+
+    <div id="fog" class="fog d-none"
+        onclick="$('#fog').addClass('d-none'); $('#change_currency1').addClass('d-none'); $('#change_currency2').addClass('d-none'); $('#change_mark').addClass('d-none');">
+    </div>
+
+    <nav class="navbar bg-body-tertiary">
+        <div class="container">
+            <div style="width: 25%;">
+                <a class="navbar-brand" href="/">
+                    <div class="d-flex flex-row">
+                        <div class="d-none d-md-block"
+                            style="width: 36px; height: 36px; position: relative; background: #0d6efd; border-radius: 6px;">
+                            <!--<i style="position: absolute; top: 48%; left: 50%; transform: translate(-50%, -50%); font-size: 20px; color: #fff;"
+                                class="fa-solid fa-building-columns"></i>-->
+                            <img src="/icons/logo.svg"
+                                style="width: 22px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                        </div>
+                        <p class="d-inline-flex"
+                            style="font-size: 23px; margin-top: 1.5px; margin-left: 10px; margin-bottom: 0;">WaveSwap
+                        </p>
+                    </div>
+                </a>
+            </div>
+            <div class="row g-0 d-none d-lg-flex"
+                style="width: 50%; font-size: 16px; font-weight: 500; text-align: center;">
+                <div class="col-3">
+                    <div><a class="navbar-link" href="/news">Новости</a></div>
+                </div>
+                <div class="col-3">
+                    <div><a class="navbar-link" href="">Партнерам</a></div>
+                </div>
+                <div class="col-3">
+                    <div><a class="navbar-link" href="">Контакты</a></div>
+                </div>
+                <div class="col-3">
+                    <div><a class="navbar-link" href="">Поддержка</a></div>
+                </div>
+            </div>
+            <div class="d-flex flex-row-reverse" style="width: 25%;">
+                <button class="btn btn-primary d-block d-lg-none" style="margin-left: 10px;"><span
+                        style="font-weight: 500;"><i class="fa-solid fa-bars"></i>
+                </button>
+                <button class="btn btn-primary" <% if (user) { %>
+                    <% if (user.admin) { %>onclick="window.location = '/admin'"<% }} else { %>
+                            data-bs-target="#auth_modal" data-bs-toggle="modal"<% } %>>
+                                <span style="font-weight: 500;"><span class="d-none d-lg-inline"
+                                        style="padding-right: 6px;">
+                                        <% if (!user) { %>
+                                            Авторизация
+                                    </span><i class="fa-solid fa-circle-user"></i>
+                                    <% } else { %>
+                                        <% if (!user.admin) { %>
+                                            Аккаунт<%= user.admin %>
+                                </span><i class="fa-solid fa-circle-user"></i>
+                                <% } else { %>
+                                    Панель управления</span><i class="fa-solid fa-circle-user"></i>
+                                    <% }} %>
+                </button>
+            </div>
+
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <p class="card-title">Правила обмена</p>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-8">              
+                <button id="page_button_0" class="btn btn-primary page-button-active" onclick="changePage(0);">Правила и условия предоставления услуг</button>
+                <button id="page_button_1" class="btn btn-primary page-button" onclick="changePage(1);">Соглашение об использовании файлов Cookie</button>
+                <button id="page_button_2" class="btn btn-primary page-button" onclick="changePage(2);">Политика обработки персональных данных</button>
+                <button id="page_button_3" class="btn btn-primary page-button" onclick="changePage(3);">AML/KYC</button>
+            </div>
+            <div class="d-none d-lg-block col-lg-4">
+                <div class="card" style="padding-top: 35px; margin-bottom: 0;">
+                    <p style="font-size: 19px; font-weight: 600; color: #383838;">Готовы совершить обмен?</p>
+                    <p style="font-size: 14px; color: #8b8b8b; margin-bottom: 30px;">WaveSwap готов предложить одни из самых выгодных курсов для обмена во всем СНГ</p>
+                    <button class="card-button" onclick="window.location='/'">Создать заявку</button>
+                </div>
+            </div>
+            <div id="pages" class="col-12 col-sm-12 col-md-12 col-lg-8">
+                <div id="page_0" class="card">
+                    <p class="text">
+                        Перед тем как воспользоваться услугами компании SRL INVEST-STRATEGY, Пользователь обязан
+                        ознакомиться в полном объеме с Правилами и условиями предоставления услуг сервисом WaveSwap.
+                        Использование услуг сервиса WaveSwap возможно только в случае, если Пользователь принимает все
+                        условия соглашения.
+                    </p>
+                    <p class="text"><strong>Правила и условия предоставления услуг сервисом WaveSwap</strong></p>
+                    <p class="text"><strong>1. Термины и определения</strong></p>
+                    <p class="text">
+                        1.1. WaveSwap ("Сервис") – это сервис предоставляющий услуги по обращению цифровых валют, расположенный в сети Интернет по адресу https://waveswap.me.
+                    </p>
+                    <p class="text">
+                        1.2. Пользователь - это любое физическое лицо, согласившееся со всеми условиями, предложенными Сервисом и присоединившееся к данному соглашению. Пользователь и Сервис - совместно именуются "Стороны".
+                    </p>
+                    <p class="text">
+                        1.3. Заявка - информация, поданная Пользователем с использованием средств Сервиса в электронном виде, свидетельствующая о его намерениях воспользоваться услугами Сервиса на условиях, предложенных Сервисом и указанных в параметрах заявки.
+                    </p>
+                    <p class="text">
+                        1.4. Обмен – операции, влекущие за собой переход цифровой валюты от одного обладателя к другому с использованием денежных средств.
+                    </p>
+                    <p class="text">
+                        1.5. Курс обмена - стоимостное соотношение двух обмениваемых валют.
+                    </p>
+                    <p class="text">
+                        1.6. Соглашение - это заключенный между Сторонами договор по обращению цифровых валют заключенный на правилах и условиях предоставления услуг Сервисом.
+                    </p>
+                    <p class="text"><strong>2. Предмет соглашения и порядок вступления его в силу</strong></p>
+                    <p class="text">
+                        2.1. Предметом настоящего соглашения являются услуги по обращения цифровых валют, осуществляемые по заказу Пользователя, а также другие услуги, описанные на веб-сайте Сервиса.
+                    </p>
+                    <p class="text">
+                        2.2. Соглашение считается принятым в ходе подачи Пользователем Заявки, являющейся неотъемлемой частью настоящего соглашения. Каждая заявка Пользователя является новым Соглашением и на новых условиях на момент подачи заявки.
+                    </p>
+                    <p class="text">
+                        2.3. Данное соглашение вступает в действие с момента завершения формирования Заявки Пользователем и присвоения индивидуального номера заявки.
+                    </p>
+                    <p class="text">
+                        2.4. Дата и время, а также параметры условий Заявки фиксируются Сервисом автоматически в момент завершения формирования Заявки и присвоения индивидуального номера заявки.
+                    </p>
+                    <p class="text">
+                        2.5. Данное соглашение прекращает свое действие с момента поступления на реквизиты Пользователем денежных средств или цифровых валют в сумме, предусмотренной параметрами Заявки Пользователя, либо с момента аннулирования заявки.
+                    </p>
+                    <p class="text">
+                        2.6. Сервис оставляет за собой право в одностороннем порядке вносить изменения в данное Соглашение без соответствующего уведомления об этом Пользователя, но с обязательной публикацией актуальной версии соглашения на данной странице.
+                    </p>
+                    <p class="text"><strong>3. Условия предоставления услуг</strong></p>
+                    <p class="text">
+                        3.1. Воспользоваться услугами Сервиса могут только те Пользователи, которые в полном объеме ознакомились и согласны с правилами и условиями предоставления услуг сервисом WaveSwap.
+                    </p>
+                    <p class="text">
+                        3.2 Сервис автоматически устанавливает курс обмена и публикует его на Интернет-сайте Сервиса.
+                    </p>
+                    <p class="text">
+                        3.3 Сервис вправе самостоятельно изменять курсы обмена в любое время в одностороннем порядке, о чем уведомляет Пользователей Сервиса размещением актуальной информации на Интернет-сайте Сервиса.
+                    </p>
+                    <p class="text">
+                        3.4 Фиксация курса обмена и порядок изменения курса в заявке:
+                    </p>
+                    <ul>
+                        <li>Курс фиксируется на 10 минут с момента выбора направления обмена, по истечению времени автоматически будет предложен новый курс;</li>
+                        <li>Если пользователь успел сформировать заявку в течение 10 минут, то данный курс продлевается еще на 20 минут для совершения оплаты заявки. Если Пользователь не успел совершить оплату и сменить статус заявки на оплаченный, посредством нажатия на кнопку “Я оплатил”, то по истечению времени автоматически будет предложен новый курс обмена;</li>
+                        <li>Сервис оставляет за собой право в одностороннем порядке изменить курс обмена, если прошло более 8 часов с момента появления транзакции в сети цифровой валюты, и отсутствует 2 подтверждения транзакции от сети цифровой валюты;</li>
+                        <li>Сервис оставляет за собой право в одностороннем порядке изменить курс обмена, если заявка содержит ошибку по вине Пользователя, и Пользователь в течение 8 часов не предоставил верную информацию на электронную почту Сервиса;</li>
+                        <li>Сервис оставляет за собой право в одностороннем порядке изменить курс обмена, если исходный курс изменился более чем на 1% до совершения оплаты заявки и смены статуса заявки на оплаченный.</li>
+                    </ul>
+                    <p class="text">
+                        3.5. Управление процессом обмена или получение информации о ходе выполнения услуги Пользователем производятся при помощи соответствующего пользовательского интерфейса, расположенного на Интернет-сайте Сервиса.
+                    </p>
+                    <p class="text">
+                        3.6. Сервис совершает обмен по заявкам Пользователя в строгом соответствии с политикой приватности, а также политикой по противодействию отмыванию денег и предотвращению операций, носящих незаконный характер.
+                    </p>
+                    <p class="text">
+                        3.7. Любая завершенная операция, проведенная Сервисом по заявке Пользователя, не может быть отменена Пользователем после ее завершения — отправки Сервисом денежных средств или цифровых валют, причитающихся Пользователю по ранее принятым условиям обмена.
+                    </p>
+                    <p class="text">
+                        3.8. В случае непоступления от Пользователя денежных средств или цифровых валют в течение одного часа с момента создания Пользователем заявки, Соглашение считается расторгнутым Сервисом в одностороннем порядке, как не вступившее в действие.
+                    </p>
+                    <p class="text">
+                        3.9. В случае расторжения соглашения, денежные средства или цифровые валюты, поступившие после указанного выше срока, по запросу Пользователя подлежат возврату на реквизиты Пользователя, с которых поступили средства. При осуществлении возврата все комиссионные расходы на перевод денежных средств или цифровых валют производятся из поступивших средств за счет Пользователя. Сервис не несет ответственность за возможные задержки при возврате, если они возникли не по вине Сервиса.
+                    </p>
+                    <p class="text">
+                        3.10. В случае, если количество поступивших денежных средств или цифровых валют отличается от заявленного Пользователем, Сервис может в одностороннем порядке расторгнуть соглашение путем отказа от исполнения заявки и возврата поступивших средств на реквизиты Пользователя, с которых поступили средства, или пересчитать сумму по фиксированному в заявке курсу. При осуществлении возврата все комиссионные расходы на перевод денежных средств или цифровых валют производятся из поступивших средств за счет Пользователя. Сервис не несет ответственность за возможные задержки при возврате, если они возникли не по вине Сервиса.
+                    </p>
+                    <p class="text">
+                        3.11. В случае если Сервис не осуществил перевод денежных средств или цифровых валют на указанные Пользователем реквизиты в течение 72 часов с момента поступления от Пользователя оплаты, при отсутствии причин для блокировки денежных средств или цифровых валют, поступивших по Заявке Пользователя со стороны Сервиса, Пользователь может потребовать расторжения соглашения путем аннулирования своей заявки и возврата денежных средств или цифровых валют в полном объеме.
+                    </p>
+                    <p class="text">
+                        3.12. В случае аннулирования заявки возврат денежных средств или цифровых валют производится Сервисом на реквизиты отправителя в течение 48 часов с момента получения требования об аннулировании. Сервис не несет ответственность за возможные задержки при возврате, если они возникли не по вине Сервиса.
+                    </p>
+                    <p class="text">
+                        3.13. В случае увеличения курса обмена более, чем на 1% все невостребованные более суток средства, поступающие в пользу сервиса, подлежат обмену или возврату по курсу, зафиксированному на момент создания заявки.
+                    </p>
+                    <p class="text">
+                        3.14. Сервис имеет право привлекать для исполнения своих обязательств сторонних исполнителей.
+                    </p>
+                    <p class="text">
+                        3.15. Сервис имеет право аннулировать заявку и вернуть внесенные Пользователем денежные средства или цифровые валюты с возмещением комиссий Пользователю без объяснения причин.
+                    </p>
+                    <p class="text">
+                        3.16. Сервис имеет право отказать Пользователю в дальнейшем обслуживании без объяснения причин.
+                    </p>
+                    <p class="text">
+                        3.17. Сервис имеет право приостановить совершение обмена для проведения идентификации отправителя перевода. В случае не прохождения идентификации заявка аннулируется. При осуществлении возврата все комиссионные расходы на перевод денежных средств или цифровых валют производятся из поступивших средств за счет Пользователя. Сервис не несет ответственность за возможные задержки при возврате, если они возникли не по вине Сервиса.
+                    </p>
+                    <p class="text">
+                        3.18. При пользовании услугами Сервиса, Пользователь подтверждает, что законно владеет и распоряжается используемыми денежными средствами и цифровыми валютами. Пользователь гарантирует, что он не является вовлеченным в:
+                    </p>
+                    <ul>
+                        <li>операции по отмыванию денежных средств;</li>
+                        <li>получение доходов от незаконного оборота наркотиков;</li>
+                        <li>получение доходов от преступной и/или террористической деятельности;</li>
+                        <li>получение доходов от торговли со странами, торговля с которыми запрещена международными организациями;</li>
+                        <li>получение дохода от любой другой незаконной деятельности.</li>
+                    </ul>
+                    <p class="text">
+                        3.19. При отправке Пользователем цифровых валют, Сервис приступит к исполнению своих обязательств по обмену, только после двух подтверждений сети цифровой валюты.
+                    </p>
+                    <p class="text">
+                        3.20. В случае, если отправка средств на реквизиты, предоставленные клиентом не может быть осуществлена по независящим от сервиса причинам или если клиент ошибся реквизитами, то сервис в праве потребовать у клиента отправить на почту сервиса support@waveswap.me верные реквизиты, прислать верификацию карты либо реквизиты для возврата средств. При осуществлении возврата все комиссионные расходы на перевод денежных средств или цифровых валют производятся из поступивших средств за счет Пользователя.
+                    </p>
+                    <p class="text"><strong>4. Политика конфиденциальности</strong></p>
+                    <p class="text">
+                        4.1. Для проведения операций Сервис принимает от Пользователя его персональные данные, которые Сервис обязуется хранить в зашифрованном виде, не придавать огласке, не передавать третьим лицам, за исключением случаев, описанных в п. 4.4 и п. 5.5 настоящего соглашения.
+                    </p>
+                    <p class="text">
+                        4.2. Проведение всех операций с Заявками, а также передача персональных данных от Пользователя к Сервису осуществляется по зашифрованному SSL-каналу с длиной ключа 256 бит.
+                    </p>
+                    <p class="text">
+                        4.3. Сервис имеет право при необходимости самостоятельно осуществлять деятельность по сбору дополнительных данных о Пользователе любыми доступными способами. Вся информация, собранная в результате такой деятельности не придается огласке, не передается третьим лицам, за исключением случаев, описанных в п. 4.4, п. 4.5 и п. 5.5 настоящего соглашения.
+                    </p>
+                    <p class="text">
+                        4.4. Сервис имеет право передавать персональные данные Пользователя и детали, совершенных им операций, по официальному запросу правоохранительных органов, суда, а также по собственной инициативе для защиты собственных прав.
+                    </p>
+                    <p class="text">
+                        4.5. Сервис имеет право передавать персональные данные Пользователя и детали, совершенных им операций, по официальному запросу платежных систем и банков, если это необходимо для выполнения финансовых обязательств.
+                    </p>
+                    <p class="text">
+                        4.6. Все собранные данные о Пользователе, а также детали совершенных им операций, хранятся в базе данных Сервиса в течение пяти лет.
+                    </p>
+                    <p class="text"><strong>5. Ограничение ответственности</strong></p>
+                    <p class="text">
+                        5.1. Пользователь гарантирует, что не является гражданином и налоговым резидентом Соединенных Штатов Америки, Северной Кореи и Ирана.
+                    </p>
+                    <p class="text">
+                        5.2. Пользоваться услугами сервиса могут только лица достигшие совершеннолетия.
+                    </p>
+                    <p class="text">
+                        5.3. Пользователь соглашается с тем, что объем ответственности Сервиса ограничивается средствами, полученными от Пользователя для исполнения предмета настоящего соглашения, что Сервис не обеспечивает дополнительных гарантий и не несет никакой дополнительной ответственности перед Пользователем, так же как и Пользователь не несет дополнительной ответственности перед Сервисом.
+                    </p>
+                    <p class="text">
+                        5.4. Сервис приложит все усилия, но не гарантирует, что его услуги будут доступны круглосуточно, ежедневно. Сервис не несет никакой ответственности за убытки, неполученную прибыль и иные издержки Пользователя, возникшие в результате невозможности получения доступа к сайту и услугам Сервиса.
+                    </p>
+                    <p class="text">
+                        5.5. Сервис не несет никакой ответственности за убытки, неполученную прибыль и иные издержки Пользователя, явившиеся результатом задержек, ошибок или сбоев в проведении банковских платежей или электронных переводов.
+                    </p>
+                    <p class="text">
+                        5.6. Сервис не несет никакой ответственности за убытки, неполученную прибыль и иные издержки Пользователя, явившиеся результатом ошибочных ожиданий Пользователя в отношении курса обмена Сервиса, прибыльности транзакций и иных субъективных факторов.
+                    </p>
+                    <p class="text">
+                        5.7. В случае предоставления Пользователем ошибочных данных в информации о реквизитах получателя денежных средств Сервис не несет никакой ответственности за любые неблагоприятные последствия или ущерб, возникшие в результате этой ошибки.
+                    </p>
+                    <p class="text">
+                        5.8. Пользователь обязуется не фальсифицировать коммуникационные потоки, связанные с функционированием Сервиса, не вмешиваться в его программную и/или аппаратную часть, а также не оказывать какого-либо иного влияния, способного нарушить нормальную работу Сервиса, понимая, что подобные действия будут иметь судебное преследование по всей строгости закона.
+                    </p>
+                    <p class="text">
+                        5.9. Ни Пользователь, ни Сервис не будут ответственны друг перед другом за задержки или неисполнение своих обязательств, являющихся результатом возникновения обстоятельств непреодолимой силы, включая стихийные бедствия, пожар, наводнение, террористические акты, смены власти, гражданские волнения, а также сбои в функционировании Электронных расчетных систем, систем энергоснабжения, сетей связи и поставщиков Интернет-услуг.
+                    </p>
+                    <p class="text">
+                        5.10. Электронные расчетные системы или финансовые учреждения несут исключительную ответственность за средства, вверенные им Пользователем. Сервис не может являться стороной в соглашении между Платежной системой или финансовым учреждением и Пользователем.
+                    </p>
+                    <p class="text">
+                        5.11. Сервис не несет ответственности за работу иных платежных сервисов и за убытки, причиненных данными платежными сервисами.
+                    </p>
+                    <p class="text"><strong>6. Порядок принятия претензий и разрешения споров</strong></p>
+                    <p class="text">
+                        6.1. Споры и разногласия, возникшие в рамках предоставления услуг Сервисом Пользователю, разрешаются путем переговоров Пользователя с администрацией Сервиса, на основе положений настоящего соглашения.
+                    </p>
+                    <p class="text">
+                        6.2. Любые претензии по настоящему соглашению Пользователь должен отправить в электронном виде на адрес электронной почты указанный на сайте Сервиса.
+                    </p>
+                    <p class="text"><strong>7. Заключительные положения</strong></p>
+                    <p class="text">
+                        7.1. Сервис вправе отправлять Пользователю на указанный им e-mail информацию о состоянии процесса обмена, а также иную информацию относящуюся к обмену.
+                    </p>
+                    <p class="text">
+                        7.2.Информация на сайте, включая графические изображения, текстовую информацию, программные коды и т.п. является собственностью Сервиса и охраняется законами об авторском праве.
+                    </p>
+                    <p class="text" style="margin-bottom: 0;">
+                        7.3. Пользователь подтверждает, что он ознакомился со всеми положениями настоящего Соглашения, и безусловно принимает их, в противном случае Пользователь не может использовать Сервис.
+                    </p>
+                </div>
+
+                <div id="page_1" class="card d-none">
+                    <p class="text"><strong>Соглашение об использовании файлов cookie</strong></p>
+                    <p class="text">
+                        Интернет-сайт waveswap.me (далее — «Сайт») использует файлы cookie и схожие технологии, чтобы гарантировать максимальное удобство пользователям, предоставляя персонализированную информацию, запоминая предпочтения при навигации по сайту и его последующих посещениях, а также помогая получить нужную пользователю информацию. Информация, которую мы получаем посредством файлов cookie, помогает нам предоставлять Вам наши услуги в наиболее подходящем для Вас виде.
+                    </p>
+                    <p class="text">
+                        Данное соглашение касается использования Сайтом информации, получаемой от пользователей Сайта. В этом документе также содержится информация о файлах cookie, об использовании файлов cookie Сайтом, а также о том, как вы можете отказаться от такого рода файлов.
+                    </p>
+                    <p class="text">
+                        Файл cookie – небольшой текстовый файл, размещаемый интернет-сайтом на персональном компьютере, телефоне либо другом устройстве пользователя с информацией о его навигации по интернет-сайту. В файлах cookie хранится информация о Ваших предпочтениях в интернете.
+                    </p>
+                    <p class="text">
+                        Файлы cookie используются в различных целях, в том числе, чтобы:
+                    </p>
+                    <ul>
+                        <li>Анализировать информацию о посещении страниц пользователями для совершенствования Сайта.</li>
+                        <li>Предоставлять сообщения и контент, созданные нами и третьими лицами, на данном сайте и сайтах других лиц, учитывая интересы пользователя.</li>
+                        <li>Помогать пользователю в получении необходимой информации.</li>
+                        <li>Определять количество посетителей и то, как они используют наш сайт, — для повышения эффективности сайта и для наилучшего понимания интересов их аудитории.</li>
+                    </ul>
+                    <p class="text">
+                        Прежде чем интернет-сайт установит файлы cookie на вашем компьютере, вы увидите всплывающее окно с просьбой дать согласие на установку этих файлов cookie. Предоставляя свое согласие на настройку наших файлов cookie, Вы даете нам возможность предоставлять Вам наилучшие возможности и обслуживание через наш интернет-сайт. Если вы хотите отказать в своем согласии на размещение файлов cookie, некоторые функции интернет-сайта могут работать не полностью или не по назначению.
+                    </p>
+                    <p class="text">
+                        Ни один из файлов cookie, установленных сайтом, никоим образом не ставит под угрозу вашу конфиденциальность. В используемых нами файлах cookie мы не сохраняем личную и конфиденциальную информацию, которая идентифицирует личность пользователя, такую как адрес, пароль, данные дебетовой или кредитной карты и т.д.
+                    </p>
+                    <p class="text">
+                        Если Вы хотите избежать использование файлов cookie на данном интернет-сайте, то Вы можете в любой момент отключить сохранение файлов cookie в своем браузере, а затем удалить сохраненные в Вашем браузере файлы cookie, связанные с использованием нашего сайта.
+                    </p>
+                    <p class="text">
+                        Обратите внимание: в таком случае отображение страниц и руководство по использованию интернет-сайта будут ограниченными.
+                    </p>
+                    <p class="text">
+                        Мы не несем ответственность за контент, способы сбора и обработки информации сторонними сайтами, в том числе сайтами, ссылки на которые могут быть опубликованы на нашем ресурсе. Пожалуйста, ознакомьтесь с политикой конфиденциальности тех ресурсов, которые Вы посещаете, прежде чем предоставлять свои данные.
+                    </p>
+                </div>
+
+                <div id="page_2" class="card d-none">
+                    <p class="text"><strong>Политика в отношении обработки персональных данных пользователей сайта</strong></p>
+                    <p class="text"><strong>1. Общие положения</strong></p>
+                    <p class="text">
+                        1.1. Настоящий документ определяет политику сайта waveswap.me (далее – Оператор) в отношении обработки персональных данных пользователей сайта и излагает систему основных принципов, применяемых в отношении обработки персональных данных.
+                    </p>
+                    <p class="text">
+                        1.2 Политика в отношении обработки персональных данных пользователей сайта (далее - Политика) разработана с целью соблюдения требований законодательства Российской Федерации, содержащих персональные данные и идентификации пользователей, находящихся на сайте.
+                    </p>
+                    <p class="text">
+                        Политика действует в отношении всех персональных данных, которые подлежат обработке Оператором.
+                    </p>
+                    <p class="text">
+                        1.3 Политика разработана в соответствии с Конституцией Российской Федерации, Гражданским кодексом Российской Федерации, Федеральным законом от 27 июля 2006 года № 152-ФЗ «О персональных данных» и иным действующим законодательством Российской Федерации в области защиты персональных данных.
+                    </p>
+                    <p class="text">
+                        1.4 Политика устанавливает порядок обработки персональных данных пользователей сайта: действия по сбору, систематизации, накоплению, хранению, уточнению (обновлению, изменению), уничтожению персональных данных.
+                    </p>
+                    <p class="text">
+                        1.5 Политика устанавливает обязательные для сотрудников Оператора, задействованных в обслуживании сайта, общие требования и правила по работе со всеми видами носителей информации, содержащими персональные данные пользователей сайта.
+                    </p>
+                    <p class="text">
+                        1.6 В Политике не рассматриваются вопросы обеспечения безопасности персональных данных, отнесенных в установленном порядке к сведениям, составляющим государственную тайну Российской Федерации.
+                    </p>
+                    <p class="text">
+                        1.7 Термины и определения:
+                    </p>
+                    <ul>
+                        <li>Персональные данные – любая информация, относящаяся прямо или косвенно к определенному или определяемому физическому лицу (субъекту персональных данных).</li>
+                        <li>Оператор – государственный орган, муниципальный орган, юридическое или физическое лицо, самостоятельно или совместно с другими лицами организующие и (или) осуществляющие обработку персональных данных, а также определяющие цели обработки персональных данных, состав персональных данных, подлежащих обработке, действия (операции), совершаемые с персональными данными.</li>
+                        <li>Обработка персональных данных - любое действие (операция) или совокупность действий (операций), совершаемых с использованием средств автоматизации или без использования таких средств с персональными данными, включая сбор, запись, систематизацию, накопление, хранение, уточнение (обновление, изменение), извлечение, использование, передачу (распространение, предоставление, доступ), обезличивание, блокирование, удаление, уничтожение персональных данных.</li>
+                        <li>Пользователь - пользователь сети Интернет и, в частности, сайта waveswap.me.</li>
+                        <li>Автоматизированная обработка персональных данных – обработка персональных данных с помощью средств вычислительной техники.</li>
+                        <li>Предоставление персональных данных – действия, направленные на раскрытие персональных данных определенному лицу или определенному кругу лиц.</li>
+                        <li>Блокирование персональных данных – временное прекращение обработки персональных данных (за исключением случаев, если обработка необходима для уточнения персональных данных).</li>
+                        <li>Уничтожение персональных данных – действия, в результате которых становится невозможным восстановить содержание персональных данных в информационной системе персональных данных и/или в результате которых уничтожаются материальные носители персональных данных.</li>
+                        <li>Обезличивание персональных данных – действия, в результате которых становится невозможным без использования дополнительной информации определить принадлежность персональных данных к конкретному субъекту персональных данных.</li>
+                    </ul>
+                    <p class="text">
+                        1.8 Оператор обеспечивает конфиденциальность и безопасность персональных данных при их обработке в соответствии с требованием законодательства и не раскрывает третьим лицами и не распространяет персональные данные без согласия на это субъекта персональных данных, если иное не предусмотрено федеральным законодательством.
+                    </p>
+                    <p class="text">
+                        В соответствии с перечнем персональных данных, обрабатываемых на сайте, персональные данные пользователей сайта являются конфиденциальной информацией.
+                    </p>
+                    <p class="text"></p>
+                    <p class="text"><strong>2. Основные права и обязанности Оператора и Субъекта персональных данных.</strong></p>
+                    <p class="text">
+                        2.1 Оператор имеет право:
+                    </p>
+                    <ul>
+                        <li>получать персональные данные от субъектов персональных данных и от третьих лиц (лиц, не являющихся субъектами персональных данных), при этом Оператор выполняет обязанности, предусмотренные Федеральным законом от 27 июля 2006 года № 152-ФЗ «О персональных данных»;</li>
+                        <li>самостоятельно определять состав и перечень мер, необходимых и достаточных для обеспечения выполнения обязанностей, предусмотренных Законом о персональных данных и принятыми в соответствии с ним нормативными правовыми актами, если иное не предусмотрено Законом о персональных данных или другими федеральными законами;</li>
+                        <li>в случае отзыва субъектом персональных данных согласия на обработку персональных данных Оператор вправе продолжить обработку персональных данных без согласия субъекта персональных данных при наличии оснований, указанных в Законе о персональных данных.</li>
+                    </ul>
+                    <p class="text">
+                        2.2 Оператор обязан:
+                    </p>
+                    <ul>
+                        <li>организовывать обработку персональных данных в соответствии с требованиями Закона о персональных данных;</li>
+                        <li>отвечать на обращения и запросы субъектов персональных данных и их законных представителей в соответствии с требованиями Закона о персональных данных.</li>                     
+                    </ul>
+                    <p class="text">
+                        2.3. Субъект персональных данных имеет право:
+                    </p>
+                    <ul>
+                        <li>получать информацию, касающуюся обработки его персональных данных, за исключением случаев, предусмотренных федеральными законами. Сведения предоставляются субъекту персональных данных Оператором в доступной форме, и в них не должны содержаться персональные данные, относящиеся к другим субъектам персональных данных, за исключением случаев, когда имеются законные основания для раскрытия таких персональных данных. Перечень информации и порядок ее получения установлен Законом о персональных данных;</li>
+                        <li>требовать от оператора уточнения его персональных данных, их блокирования или уничтожения в случае, если персональные данные являются неполными, устаревшими, неточными, незаконно полученными или не являются необходимыми для заявленной цели обработки;</li>
+                        <li>иные права, предусмотренные главой 3 Федерального закона от 27 июля 2006 года № 152-ФЗ «О персональных данных»</li>                
+                    </ul>
+                    <p class="text"></p>
+                    <p class="text"><strong>3. Цели сбора персональных данных</strong></p>
+                    <p class="text">
+                        3.1 Обработка персональных данных ограничивается достижением конкретных, заранее определенных и законных целей. Не допускается обработка персональных данных, несовместимая с целями сбора персональных данных.
+                    </p>
+                    <p class="text">
+                        3.2 Обработке подлежат только персональные данные, которые отвечают целям их обработки.
+                    </p>
+                    <p class="text">
+                        3.3 Обработка персональных данных пользователей сайта осуществляется исключительно в целях предоставления пользователю возможности взаимодействовать с сайтом.
+                    </p>
+                    <p class="text">
+                        3.4 Сведениями, составляющими персональные данные на сайте, является любая информация, относящаяся к определенному или определяемому на основании такой информации физическому лицу (субъекту персональных данных).
+                    </p>
+                    <p class="text"></p>
+                    <p class="text"><strong>4. Объем обрабатываемых персональных данных.</strong></p>
+                    <p class="text">
+                        4.1. Содержание и объем обрабатываемых персональных данных пользователей сайта соответствует заявленным целям обработки, предусмотренным в разделе 3 настоящей Политики. Обрабатываемые персональные данные не должны быть избыточными по отношению к заявленным целям их обработки.
+                    </p>
+                    <p class="text">
+                        4.2. Оператор может обрабатывать следующие персональные данные пользователей:
+                    </p>
+                    <ul>
+                        <li>источник захода на сайт (сайты) и информация поискового или рекламного запроса;</li>
+                        <li>данные о пользовательском устройстве (среди которых разрешение, версия и другие атрибуты, характеризующие пользовательское устройство);</li>
+                        <li>пользовательские клики, просмотры страниц, заполнения полей, показы и просмотры баннеров и видео;</li>
+                        <li>данные, характеризующие аудиторные сегменты;</li>
+                        <li>параметры сессии;</li>
+                        <li>данные о времени посещения;</li>
+                        <li>идентификатор пользователя, хранимый в cookie;</li>
+                        <li>фамилия;</li>
+                        <li>имя;</li>
+                        <li>отчество;</li>
+                        <li>номер контактного телефона;</li>
+                        <li>адрес электронной почты;</li>
+                    </ul>
+                    <p class="text">
+                        4.3 Оператором не осуществляется обработка специальных категорий персональных данных, касающихся расовой, национальной принадлежности, политических взглядов, религиозных или философских убеждений, состояния здоровья, интимной жизни, за исключением случаев, предусмотренных законодательством Российской Федерации.
+                    </p>
+                    <p class="text">
+                        4.4 Оператор не осуществляет обработку биометрических персональных данных.
+                    </p>
+                    <p class="text">
+                        4.5 Оператор не осуществляет трансграничную передачу персональных данных.
+                    </p>
+                    <p class="text"></p>
+                    <p class="text"><strong>5. Порядок и условия обработки персональных данных.</strong></p>
+                    <p class="text">
+                        5.1 Обработка персональных данных осуществляется Оператором в соответствии с требованиями законодательства Российской Федерации.
+                    </p>
+                    <p class="text">
+                        5.2 Обработка персональных данных осуществляется с согласия субъектов персональных данных на обработку их персональных данных, а также без такового в случаях, предусмотренных законодательством Российской Федерации.
+                    </p>
+                    <p class="text">
+                        5.3 Оператор осуществляет как автоматизированную, так и неавтоматизированную обработку персональных данных.
+                    </p>
+                    <p class="text">
+                        5.4 К обработке персональных данных допускаются работники Оператора, в должностные обязанности которых входит обработка персональных данных.
+                    </p>
+                    <p class="text">
+                        5.5 Не допускается раскрытие и предоставление третьим лицам и распространение персональных данных без согласия субъекта персональных данных, если иное не предусмотрено федеральным законом.
+                    </p>
+                    <p class="text">
+                        5.6 Передача персональных данных органам дознания и следствия, в Федеральную налоговую службу, Пенсионный фонд Российской Федерации, Фонд социального страхования и другие уполномоченные органы исполнительной власти и организации осуществляется в соответствии с требованиями законодательства Российской Федерации.
+                    </p>
+                    <p class="text">
+                        5.7 Оператор принимает необходимые правовые, организационные и технические меры для защиты персональных данных от неправомерного или случайного доступа к ним, уничтожения, изменения, блокирования, распространения и других несанкционированных действий, в том числе:
+                    </p>
+                    <ul>
+                        <li>определяет угрозы безопасности персональных данных при их обработке;</li>
+                        <li>принимает локальные нормативные акты и иные документы, регулирующие отношения в сфере обработки и защиты персональных данных;</li>
+                        <li>создает необходимые условия для работы с персональными данными;</li>
+                        <li>организует учет документов, содержащих персональные данные;</li>
+                        <li>организует работу с информационными системами, в которых обрабатываются персональные данные;</li>
+                        <li>хранит персональные данные в условиях, при которых обеспечивается их сохранность и исключается неправомерный доступ к ним.</li>
+                    </ul>
+                    <p class="text">
+                        5.8 Оператор осуществляет хранение персональных данных в форме, позволяющей определить субъекта персональных данных, не дольше, чем этого требуют цели обработки персональных данных, если срок хранения персональных данных не установлен федеральным законом, договором.
+                    </p>
+                    <p class="text">
+                        5.9 При сборе персональных данных, в том числе посредством информационно-телекоммуникационной сети Интернет, Оператор обеспечивает запись, систематизацию, накопление, хранение, уточнение (обновление, изменение), извлечение персональных данных граждан Российской Федерации с использованием баз данных, находящихся на территории Российской Федерации, за исключением случаев, указанных в Законе о персональных данных.
+                    </p>
+                    <p class="text"></p>
+                    <p class="text"><strong>6. Порядок и сроки хранения персональных данных.</strong></p>
+                    <p class="text">
+                        6.1 Оператор осуществляет только хранение персональных данных Пользователей на Сайте.
+                    </p>
+                    <p class="text">
+                        6.2 Срок хранения персональных данных пользователей начинает течь с момента дачи согласия на обработку персональных данных, получаемого путем акцепта оферты, не требующей двустороннего подписания и действительной в электронном виде, и действуют до тех пор, пока пользователь не заявит о своем желании удалить свои персональные данные с сайта.
+                    </p>
+                    <p class="text">
+                        6.3 В случае удаления данных с сайта по инициативе одной из сторон, а именно прекращения использования сайта, персональные данные пользователя хранятся в базах данных Оператора пять лет в соответствии с законодательством Российской Федерации.
+                    </p>
+                    <p class="text">
+                        6.4 По истечении вышеуказанного срока хранения персональных данных пользователя персональные данные пользователя удаляются автоматически заданным алгоритмом, который задает Оператор.
+                    </p>
+                    <p class="text">
+                        6.5 Оператором не ведется обработка персональных данных Пользователей на бумажных носителях информации.
+                    </p>
+                    <p class="text"></p>
+                    <p class="text"><strong>7. Удаление и уничтожение персональных данных</strong></p>
+                    <p class="text">
+                        7.1 При достижении целей обработки персональных данных, а также в случае отзыва субъектом персональных данных согласия на их обработку персональные данные подлежат уничтожению, если:
+                    </p>
+                    <ul>
+                        <li>иное не предусмотрено договором, стороной которого, выгодоприобретателем или поручителем по которому является субъект персональных данных;</li>
+                        <li>оператор не вправе осуществлять обработку без согласия субъекта персональных данных на основаниях, предусмотренных Законом о персональных данных или иными федеральными законами;</li>
+                        <li>иное не предусмотрено другим соглашением между Оператором и субъектом персональных данных.</li>
+                    </ul>
+                    <p class="text">
+                        7.2 Субъект персональных данных вправе в письменной форме требовать уничтожения своих персональных данных в случае, если персональные данные являются неполными, устаревшими, недостоверными, незаконно полученными или не являются необходимыми для заявленной цели обработки.
+                    </p>
+                    <p class="text">
+                        7.3 В случае отсутствия возможности уничтожения персональных данных Оператор осуществляет блокирование таких персональных данных.
+                    </p>
+                    <p class="text">
+                        7.4 Уничтожение персональных данных осуществляется путем стирания информации с использованием сертифицированного программного обеспечения с гарантированным уничтожением (в соответствии с заданными характеристиками для установленного программного обеспечения с гарантированным уничтожением).
+                    </p>
+                    <p class="text"></p>
+                    <p class="text"><strong>8. Заключительные положения.</strong></p>
+                    <p class="text">
+                        8.1 Контроль за исполнением требований настоящей Политики осуществляется уполномоченным лицом, ответственным за организацию обработки персональных данных у Оператора.
+                    </p>
+                    <p class="text">
+                        8.2 Ответственность за нарушение требований законодательства Российской Федерации и нормативных актов в сфере обработки и защиты персональных данных определяется в соответствии с законодательством Российской Федерации.
+                    </p>
+                    <p class="text">
+                        8.3 В случае изменения действующего законодательства Российской Федерации, внесения изменений в нормативные документы по защите персональных данных настоящая Политика действует в части, не противоречащей действующему законодательству до приведения его в соответствие с такими.
+                    </p>
+                    <p class="text">
+                        8.4 Условия Политики устанавливаются, изменяются и отменяются Оператором в одностороннем порядке без предварительного уведомления Пользователя. С момента размещения на сайте новой редакции Политики предыдущая редакция считается утратившей свою силу. В случае существенного изменения условий Политики Оператор извещает об этом пользователей путем размещения на сайте соответствующего сообщения.
+                    </p>
+                    <p class="text">
+                        8.5 В соответствии со статьей 435 Гражданского кодекса Российской Федерации, настоящий документ признается офертой.
+                    </p>
+                    <p class="text">
+                        В соответствии со статьей 438 Гражданского Кодекса Российской Федерации, безусловным принятием (акцептом) условий настоящей политики считается факт подачи пользователем заявки на интернет-сайте waveswap.me и согласием на обработку своих персональных данных.
+                    </p>
+                    <p class="text">
+                        Согласие на обработку персональных данных, получаемое путем акцепта настоящей оферты, не требует двустороннего подписания и действительно в электронном виде.
+                    </p>
+                    <p class="text">
+                        8.6 Если Пользователь не согласен с условиями настоящей Политики, то он должен немедленно удалить свой профиль с сайта либо уведомить о своем несогласии Оператора, в противном случае продолжение использования пользователем сайта означает, что пользователь согласен с условиями настоящей Политики
+                    </p>
+                </div>
+                <div id="page_3" class="card d-none">
+                    <p class="text"><strong>Политика противодействия отмыванию денег и незаконным операциям (AML и KYC)</strong></p>
+                    <p class="text">
+                        1. В соответствии с международным законодательством Сервис придерживается ряда правил и реализует ряд процедур, направленных на предотвращение использования Сервиса с целью проведения операций по отмыванию денег, а также проведению иных операций, носящих незаконный характер.
+                    </p>
+                    <p class="text">
+                        2. Для предотвращения операций незаконного характера Сервис устанавливает определенные требования ко всем Заявкам, создаваемым Пользователем:
+                    </p>
+                    <ul>
+                        <li>Переводы в пользу третьих лиц категорически запрещены;</li>
+                        <li>Все контактные данные, заносимые Пользователем в Заявку, а также иные персональные данные, передаваемые Пользователем Сервису, должны быть актуальными и полностью достоверными;</li>
+                        <li>Категорически запрещено создание Заявок Пользователем с использованием анонимных прокси-серверов или каких-либо других анонимных подключений к Интернету.</li>
+                    </ul>
+                    <p class="text">
+                        3. Сервис оставляет за собой право потребовать фото или видео с документом, удостоверяющим личность пользователя, в рамках политики KYC(Know Your Customer). Идентификационная информация клиента будет собираться, храниться, передаваться и защищаться строго в соответствии с Политикой обработки персональных данных компании.
+                    </p>
+                    <p class="text">
+                        4. Пользователю будет отказано в совершении обмена, если Сервис не удовлетворен предоставленной информацией, или имеются сомнения в том, что он действительно является тем, за кого себя выдает.
+                    </p>
+                    <p class="text">
+                        5. Сервис оставляет за собой право приостановить все текущие заявки Пользователя до момента получения от Пользователя копий документов, удостоверяющих личность Пользователя и другую информацию, необходимую для проверки производимой операции в следующих случаях:
+                    </p>
+                    <ul>
+                        <li>При выявлении нарушения любого из требований, представленных в пункте 2 настоящего Соглашения;</li>
+                        <li>При остановке заявки Пользователя системой предотвращения незаконных операций;</li>
+                        <li>При возникновении обоснованных подозрений у Сервиса в том, что пользователь пытается воспользоваться услугами Сервиса с целью проведения незаконных операций;</li>
+                        <li>При выявлении высокорискованных транзакций с реквизитами Пользователя.</li>
+                    </ul>
+                    <p class="text">
+                        В свою очередь, Пользователь обязуется предоставить запрашиваемый документ в течение 7 рабочих дней с получения запроса на его предоставление, либо запросить аннулирование заявки.
+                    </p>
+                    <p class="text">
+                        6. Для выявления высокорискованных транзакций и адресов Сервис использует внутреннюю систему проверки и анализа. Сервис оставляет за собой право не раскрывать информацию о способах и результатах проверки транзакций Пользователя.
+                    </p>
+                    <p class="text">
+                        7. При выявлении высокорискованных транзакций с реквизитами Пользователя Сервис имеет право аннулировать заявку и вернуть внесенные Пользователем денежные средства или цифровые валюты. Возврат средств происходит только на реквизиты, с которых перевод был осуществлен. При осуществлении возврата все комиссионные расходы на перевод денежных средств или цифровых валют производятся из поступивших средств за счет Пользователя, но не более 5% от суммы оплаты. Сервис не несет ответственность за возможные задержки при возврате, если они возникли не по вине Сервиса.
+                    </p>
+                    <p class="text">
+                        8. В случае отказа Пользователя предоставить запрашиваемые документы Сервис оставляет за собой право отказать Пользователю в дальнейшем обслуживании.
+                    </p>
+                    <p class="text">
+                        9. Сервис оставляет за собой право отказать Пользователю в дальнейшем обслуживании и передать все имеющиеся у Сервиса данные Пользователя, а также всю имеющуюся информацию об операциях Пользователя в правоохранительные органы в случаях:
+                    </p>
+                    <ul>
+                        <li>Выявления транзакций, целью которых является отмывание денег, финансирование террористических организаций, мошенничество любого рода, а также транзакций, направленных на проведение любых других незаконных и неправомерных операций;</li>
+                        <li>При возникновении обоснованного подозрения у Сервиса в том, что предоставленный Пользователем документ для идентификации личности Пользователя является поддельным или недействительным;</li>
+                        <li>Поступления информации от уполномоченных на то органов о неправомочности владения Пользователем денежными средствами или цифровыми валютами, или иная информация, делающая невозможным предоставление Сервисом услуг Пользователю;</li>
+                        <li>Выявления любых действий или попытки совершения действий Пользователем, направленных на оказание любого негативного влияния на программно-аппаратный комплекс Сервиса;</li>
+                        <li>Выявления любых действий или попытки совершения действий Пользователем, направленных на хищение баз данных и другого материального и нематериального имущества Сервиса;</li>
+                        <li>Выявления любых действий или попытки совершения действий Пользователем, способных нанести любой физический, материальный и нематериальный вред Сервису;</li>
+                        <li>В случае, если средства поступают с карты, отличающейся от той, что была верифицирована, Сервис приостанавливает совершение обмена. Средства по данной заявке будут возвращены отправителю в течение 24 часов после обращения и при условии обязательной верификации карты, с которой поступили средства. При осуществлении возврата все комиссионные расходы на перевод денежных средств или цифровых валют производятся из поступивших средств за счет Пользователя.</li>
+                    </ul>
+                    <p class="text">
+                        10. Сервис оставляет за собой право приостановить все текущие заявки Пользователя до момента получения от Пользователя копий документов или иную информацию, подтверждающую факт оплаты заявки.
+                    </p>
+                    <p class="text">
+                        11. Некоторые направления обмена могут быть недоступны Пользователям, использующих IP-адреса стран, находящихся под международными санкциями.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="d-flex justify-content-between">
+                    <div style="width: 65%;">
+                        <div class="d-flex justify-content-start">
+                            <div
+                                style="width: 36px; height: 36px; position: relative; background: #0d6efd; border-radius: 6px;">
+                                <img src="/icons/logo.svg"
+                                    style="width: 22px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                            </div>
+                            <p class="align-self-center footer-title">WaveSwap</p>
+
+                        </div>
+                        <p class="footer-copyright">Сервис качественных и быстрых обменов<br>
+                            Все права защищены. Copyright © waveswap.net 2021-2024</p>
+                    </div>
+
+                    <div class="d-flex flex-column">
+                        <p class="d-inline-flex footer-link" style="margin-top: 10px;"><a href="/news">Новости</a></p>
+                        <p class="d-inline-flex footer-link"><a href="/partners">Партнерам</a></p>
+                        <p class="d-inline-flex footer-link"><a href="">Авторизация</a></p>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <p class="d-inline-flex footer-link" style="margin-top: 10px;"><a href="/rules">Правила
+                                обмена</a></p>
+                        <p class="d-inline-flex footer-link"><a href="/help">Поддержка</a></p>
+                        <p class="d-inline-flex footer-link"><a href="/contacts">Контакты</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        function changePage(page) {
+            if (page == 0) {
+                $('#page_0').removeClass('d-none');
+                $('#page_1').addClass('d-none');
+                $('#page_2').addClass('d-none');
+                $('#page_3').addClass('d-none');
+
+                $('#page_button_0').removeClass('page-button');
+                $('#page_button_0').addClass('page-button-active');
+                $('#page_button_1').addClass('page-button');
+                $('#page_button_1').removeClass('page-button-active');
+                $('#page_button_2').addClass('page-button');
+                $('#page_button_2').removeClass('page-button-active');
+                $('#page_button_3').addClass('page-button');
+                $('#page_button_3').removeClass('page-button-active');
+            } else if (page == 1) {
+                $('#page_0').addClass('d-none');
+                $('#page_1').removeClass('d-none');
+                $('#page_2').addClass('d-none');
+                $('#page_3').addClass('d-none');
+
+                $('#page_button_0').addClass('page-button');
+                $('#page_button_0').removeClass('page-button-active');
+                $('#page_button_1').removeClass('page-button');
+                $('#page_button_1').addClass('page-button-active');
+                $('#page_button_2').addClass('page-button');
+                $('#page_button_2').removeClass('page-button-active');
+                $('#page_button_3').addClass('page-button');
+                $('#page_button_3').removeClass('page-button-active');
+            } else if (page == 2) {
+                $('#page_0').addClass('d-none');
+                $('#page_1').addClass('d-none');
+                $('#page_2').removeClass('d-none');
+                $('#page_3').addClass('d-none');
+
+                $('#page_button_0').addClass('page-button');
+                $('#page_button_0').removeClass('page-button-active');
+                $('#page_button_1').addClass('page-button');
+                $('#page_button_1').removeClass('page-button-active');
+                $('#page_button_2').removeClass('page-button');
+                $('#page_button_2').addClass('page-button-active');
+                $('#page_button_3').addClass('page-button');
+                $('#page_button_3').removeClass('page-button-active');
+            } else if (page == 3) {
+                $('#page_0').addClass('d-none');
+                $('#page_1').addClass('d-none');
+                $('#page_2').addClass('d-none');
+                $('#page_3').removeClass('d-none');
+
+                $('#page_button_0').addClass('page-button');
+                $('#page_button_0').removeClass('page-button-active');
+                $('#page_button_1').addClass('page-button');
+                $('#page_button_1').removeClass('page-button-active');
+                $('#page_button_2').addClass('page-button');
+                $('#page_button_2').removeClass('page-button-active');
+                $('#page_button_3').removeClass('page-button');
+                $('#page_button_3').addClass('page-button-active');
+            }
+        }
+    </script>
+</body>
+
+</html>

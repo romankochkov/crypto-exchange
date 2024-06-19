@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.svg">
+    <title>
+        Новости | WaveSwap
+    </title>
+</head>
+
+<body>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+            background: #ececec;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .auth-button {
+            background: #0d6efd;
+            border-radius: 8px;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            padding-top: 10px;
+            padding-left: 80px;
+            padding-right: 80px;
+            padding-bottom: 12px;
+            transition: 0s;
+        }
+
+        .auth-button:hover {
+            background: #2b80ff;
+            color: #fff;
+        }
+
+        .telegram {
+            position: fixed;
+            right: 20px;
+            bottom: 30px;
+            z-index: 90;
+        }
+
+        .telegram-tooltip {
+            position: relative;
+            background: #34A853;
+            box-shadow: -2px 2px 7px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 500;
+            padding-top: 8px;
+            padding-left: 12px;
+            padding-right: 12px;
+            padding-bottom: 8px;
+            animation-name: disappearance;
+            animation-duration: 0.4s;
+            animation-delay: 5s;
+            animation-fill-mode: forwards;
+        }
+
+        .telegram-tooltip-arrow {
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 8px solid #34A853;
+            margin-right: 10px;
+            animation-name: disappearance;
+            animation-duration: 0.6s;
+            animation-delay: 5s;
+            animation-fill-mode: forwards;
+        }
+
+        .telegram-button {
+            width: 56px;
+            height: 56px;
+            position: relative;
+            background: #fff;
+            box-shadow: 0 2px 7px 2px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            transition: 0.2s;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .telegram-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 2px 5px 3px rgba(25, 127, 210, 0.3);
+        }
+
+        .telegram-button i {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 32px;
+            color: #2AABEE;
+        }
+
+        .fog {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(0.5px);
+            z-index: 998;
+        }
+
+        nav {
+            position: relative;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            z-index: 80;
+        }
+
+        nav .container {
+            padding-top: 13px;
+            padding-bottom: 15px;
+        }
+
+        .navbar-brand {
+            font-size: 23px;
+            font-weight: 700;
+            margin-right: 0;
+        }
+
+        .navbar-link {
+            color: #222222;
+            text-decoration: none;
+        }
+
+        .navbar-link:hover {
+            text-decoration: underline;
+        }
+
+        .card {
+            position: relative;
+            background: #fff;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            border: none;
+            border-radius: 8px;
+            padding-top: 30px;
+            padding-left: 35px;
+            padding-right: 35px;
+            padding-bottom: 20px;
+            margin-top: 0;
+            margin-bottom: 60px;
+        }
+
+        .card .title {
+            color: #383838;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .card .text {
+            color: #5f5f5f;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 22px;
+            letter-spacing: 0.02em;
+        }
+
+        .card .date {
+            font-size: 14px;
+            color: #b7b7b7;
+            text-align: right;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+
+        .card-title {
+            position: relative;
+            font-size: 24px;
+            color: #383838;
+            font-weight: 700;
+            margin-top: 60px;
+            margin-bottom: 40px;
+            z-index: 1;
+        }
+
+        .page-button-active {
+            border-radius: 8px;
+            border: 0;
+            font-size: 12px;
+            font-weight: 500;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin-right: 8px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            transition: 0.1s;
+        }
+
+        .page-button {
+            background: transparent;
+            border-radius: 8px;
+            border: 0;
+            color: #a0a0a0;
+            font-size: 12px;
+            font-weight: 500;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin-right: 8px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            transition: 0.1s;
+        }
+
+        .page-button:hover {
+            background: #dadada;
+            color: #a0a0a0;
+        }
+
+        .input-group .input-group-text {
+            width: 55px;
+            position: relative;
+            font-size: 20px;
+            color: #888888;
+        }
+
+        .input-group .input-group-text .icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .input-group input {
+            font-size: 16px;
+            padding-top: 18px;
+            padding-bottom: 18px;
+        }
+
+        .input-group input:focus {
+            box-shadow: none;
+        }
+
+        .input-group input::placeholder {
+            color: #888888;
+        }
+
+        .modal-body .input-group .input-group-text {
+            width: auto;
+            position: relative;
+            font-size: 20px;
+            color: #888888;
+        }
+
+        .input-group-currency .input-group-text {
+            width: auto;
+            position: relative;
+            font-size: 18px;
+            color: #383838;
+            padding-left: 18px;
+            padding-right: 18px;
+            cursor: pointer;
+        }
+
+        .input-group-currency input {
+            border-top-right-radius: 6px !important;
+            border-bottom-right-radius: 6px !important;
+            font-size: 16px;
+            padding-top: 25px;
+            padding-bottom: 25px;
+        }
+
+        .input-group-currency input::placeholder {
+            color: #888888;
+        }
+
+        .input-group p {
+            position: absolute;
+            top: 24px;
+            right: 22px;
+            font-size: 18px;
+            color: #888888;
+            border-radius: 6px;
+        }
+
+        .card-button {
+            position: relative;
+            background: #383838;
+            border: none;
+            font-size: 15px;
+            font-weight: 500;
+            color: #fff;
+            border-radius: 8px;
+            padding-top: 18px;
+            padding-left: 55px;
+            padding-right: 55px;
+            padding-bottom: 18px;
+            cursor: pointer;
+        }
+
+        .card-button:hover {
+            background: #444444;
+        }
+
+        .form-check-input:checked {
+            box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.5);
+        }
+
+        footer {
+            background: #383838;
+            background-image: url('/icons/wave.svg');
+            background-size: cover;
+            background-position: 50% 30%;
+            padding-top: 50px;
+            padding-bottom: 40px;
+            border-top: 2px solid rgb(119, 119, 119);
+        }
+
+        .footer-title {
+            position: relative;
+            font-size: 23px;
+            font-weight: 600;
+            color: #fff;
+            margin-top: 1.5px;
+            margin-left: 10px;
+            margin-bottom: 0;
+        }
+
+        .footer-copyright {
+            color: rgb(122, 122, 122);
+            font-size: 13px;
+            margin-top: 20px;
+            margin-bottom: 0;
+        }
+
+        .footer-link {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .footer-link a {
+            color: #e7e7e7;
+            text-decoration: none;
+        }
+
+        .footer-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 767.98px) {
+            .card {
+                padding-top: 20px;
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-bottom: 22px;
+                margin-top: 40px;
+                margin-bottom: 40px;
+            }
+
+            .card-title {
+                text-align: center;
+            }
+        }
+
+        @keyframes disappearance {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+    </style>
+
+    <div class="modal fade" id="auth_modal" aria-hidden="true" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" style="width: 380px; margin-top: -3%;">
+            <div class="modal-content">
+                <div class="modal-header"
+                    style="position: relative; padding-top: 25px; padding-left: 35px; padding-right: 20px; padding-bottom: 25px;">
+                    <div
+                        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #383838; font-size: 19px; font-weight: 600;">
+                        Авторизация</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="padding-left: 35px; padding-right: 35px;">
+                    <div
+                        style="width: 100%; height: 2px; position: relative; background: #dddddd; margin-top: 5px; margin-bottom: 20px;">
+                    </div>
+                    <form method="post" action="/authorization">
+                        <div class="input-group flex-nowrap mt-3 mb-4">
+                            <span style="width: 40px; font-size: 16px;" class="input-group-text"><i
+                                    style="position: absolute; top: 50%; left: 52%; transform: translate(-50%, -50%);"
+                                    class="fa-solid fa-envelope"></i></span>
+                            <input style="color: #383838; padding-top: 12px; padding-bottom: 12px;" type="email"
+                                class="form-control" placeholder="E-mail" aria-label="email"
+                                aria-describedby="addon-wrapping" name="email" required>
+                        </div>
+                        <div class="input-group flex-nowrap" style="margin-bottom: 70px;">
+                            <span style="width: 40px; font-size: 16px;" class="input-group-text"><i
+                                    style="position: absolute; top: 50%; left: 52%; transform: translate(-50%, -50%);"
+                                    class="fa-solid fa-lock"></i></span>
+                            <input style="color: #383838; padding-top: 12px; padding-bottom: 12px;" type="password"
+                                class="form-control" placeholder="Пароль" aria-label="password"
+                                aria-describedby="addon-wrapping" name="password" minlength="8" maxlength="32" required>
+                        </div>
+                        <div class="d-flex justify-content-center mb-3">
+                            <button class="auth-button">Войти</button>
+                        </div>
+                    </form>
+                    <div
+                        style="width: 100%; height: 2px; position: relative; background: #dddddd; margin-top: 20px; margin-bottom: 5px;">
+                    </div>
+                </div>
+                <div class="modal-footer"
+                    style="padding-top: 25px; padding-left: 32px; padding-right: 32px; padding-bottom: 25px;">
+                    <div class="d-flex justify-content-between" style="width: 100%;">
+                        <div class="d-inline-flex"
+                            style="font-size: 13px; font-weight: 500; color: #959595; text-transform: uppercase; margin-bottom: 0;">
+                            Забыли пароль?</div>
+                        <div class="d-inline-flex"
+                            style="font-size: 13px; font-weight: 500; color: #84b5ff; text-transform: uppercase; margin-bottom: 0; cursor: pointer; user-select: none;"
+                            data-bs-target="#reg_modal" data-bs-toggle="modal">Создать
+                            аккаунт</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="reg_modal" aria-hidden="true" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" style="width: 380px; margin-top: -3%;">
+            <div class="modal-content">
+                <div class="modal-header"
+                    style="position: relative; padding-top: 25px; padding-left: 35px; padding-right: 20px; padding-bottom: 25px;">
+                    <div
+                        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #383838; font-size: 19px; font-weight: 600;">
+                        Регистрация</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="padding-left: 35px; padding-right: 35px;">
+                    <div
+                        style="width: 100%; height: 2px; position: relative; background: #dddddd; margin-top: 5px; margin-bottom: 20px;">
+                    </div>
+                    <form method="post" action="/registration">
+                        <div class="input-group flex-nowrap mt-3 mb-4">
+                            <span style="width: 40px; font-size: 16px;" class="input-group-text"><i
+                                    style="position: absolute; top: 50%; left: 52%; transform: translate(-50%, -50%);"
+                                    class="fa-solid fa-envelope"></i></span>
+                            <input style="color: #383838; padding-top: 12px; padding-bottom: 12px;" type="email"
+                                class="form-control" placeholder="E-mail" aria-label="email"
+                                aria-describedby="addon-wrapping" name="email" required>
+                        </div>
+                        <div class="input-group flex-nowrap mt-3 mb-4">
+                            <span style="width: 40px; font-size: 16px;" class="input-group-text"><i
+                                    style="position: absolute; top: 50%; left: 52%; transform: translate(-50%, -50%);"
+                                    class="fa-solid fa-lock"></i></span>
+                            <input style="color: #383838; padding-top: 12px; padding-bottom: 12px;" type="password"
+                                class="form-control" placeholder="Пароль" aria-label="password"
+                                aria-describedby="addon-wrapping" name="password" minlength="8" maxlength="32" required>
+                        </div>
+                        <div class="input-group flex-nowrap" style="margin-bottom: 70px;">
+                            <span style="width: 40px; font-size: 16px;" class="input-group-text"><i
+                                    style="position: absolute; top: 50%; left: 52%; transform: translate(-50%, -50%);"
+                                    class="fa-solid fa-lock"></i></span>
+                            <input style="color: #383838; padding-top: 12px; padding-bottom: 12px;" type="password"
+                                class="form-control" placeholder="Повтор пароля" aria-label="password"
+                                aria-describedby="addon-wrapping" name="password_repeat" minlength="8" maxlength="32"
+                                required>
+                        </div>
+                        <div class="d-flex justify-content-center mb-3">
+                            <button class="auth-button" style="padding-left: 40px; padding-right: 40px;">Создать
+                                аккаунт</button>
+                        </div>
+                    </form>
+                    <div
+                        style="width: 100%; height: 2px; position: relative; background: #dddddd; margin-top: 20px; margin-bottom: 5px;">
+                    </div>
+                </div>
+                <div class="modal-footer"
+                    style="padding-top: 25px; padding-left: 32px; padding-right: 32px; padding-bottom: 25px;">
+                    <div class="d-flex justify-content-center" style="width: 100%;">
+                        <div class="d-inline-flex"
+                            style="font-size: 13px; font-weight: 500; color: #84b5ff; text-transform: uppercase; margin-bottom: 0; cursor: pointer; user-select: none;"
+                            data-bs-target="#auth_modal" data-bs-toggle="modal"><span style="color: #959595;">Уже есть
+                                аккаунт? -&nbsp;</span>Авторизация</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end telegram">
+        <div class="align-self-center telegram-tooltip">Нужна помощь?</div>
+        <div class="align-self-center telegram-tooltip-arrow"></div>
+        <div class="telegram-button" onclick="window.open('', '_blank');">
+            <i class="fa-brands fa-telegram"></i>
+        </div>
+    </div>
+
+    <div id="fog" class="fog d-none"
+        onclick="$('#fog').addClass('d-none'); $('#change_currency1').addClass('d-none'); $('#change_currency2').addClass('d-none'); $('#change_mark').addClass('d-none');">
+    </div>
+
+    <nav class="navbar bg-body-tertiary">
+        <div class="container">
+            <div style="width: 25%;">
+                <a class="navbar-brand" href="/">
+                    <div class="d-flex flex-row">
+                        <div class="d-none d-md-block"
+                            style="width: 36px; height: 36px; position: relative; background: #0d6efd; border-radius: 6px;">
+                            <!--<i style="position: absolute; top: 48%; left: 50%; transform: translate(-50%, -50%); font-size: 20px; color: #fff;"
+                                class="fa-solid fa-building-columns"></i>-->
+                            <img src="/icons/logo.svg"
+                                style="width: 22px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                        </div>
+                        <p class="d-inline-flex"
+                            style="font-size: 23px; margin-top: 1.5px; margin-left: 10px; margin-bottom: 0;">WaveSwap
+                        </p>
+                    </div>
+                </a>
+            </div>
+            <div class="row g-0 d-none d-lg-flex"
+                style="width: 50%; font-size: 16px; font-weight: 500; text-align: center;">
+                <div class="col-3">
+                    <div><a class="navbar-link" href="">Новости</a></div>
+                </div>
+                <div class="col-3">
+                    <div><a class="navbar-link" href="">Партнерам</a></div>
+                </div>
+                <div class="col-3">
+                    <div><a class="navbar-link" href="">Контакты</a></div>
+                </div>
+                <div class="col-3">
+                    <div><a class="navbar-link" href="">Поддержка</a></div>
+                </div>
+            </div>
+            <div class="d-flex flex-row-reverse" style="width: 25%;">
+                <button class="btn btn-primary d-block d-lg-none" style="margin-left: 10px;"><span
+                        style="font-weight: 500;"><i class="fa-solid fa-bars"></i>
+                </button>
+                <button class="btn btn-primary" <% if (user) { %>
+                    <% if (user.admin) { %>onclick="window.location = '/admin'"<% }} else { %>
+                            data-bs-target="#auth_modal" data-bs-toggle="modal"<% } %>>
+                                <span style="font-weight: 500;"><span class="d-none d-lg-inline"
+                                        style="padding-right: 6px;">
+                                        <% if (!user) { %>
+                                            Авторизация
+                                    </span><i class="fa-solid fa-circle-user"></i>
+                                    <% } else { %>
+                                        <% if (!user.admin) { %>
+                                            Аккаунт<%= user.admin %>
+                                </span><i class="fa-solid fa-circle-user"></i>
+                                <% } else { %>
+                                    Панель управления</span><i class="fa-solid fa-circle-user"></i>
+                                    <% }} %>
+                </button>
+            </div>
+
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <p class="card-title">Новости</p>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-8">
+                <div class="card">
+                    <p class="title">Поздравляем с новым 2024 годом!</p>
+                    <p class="text">Уважаемые клиенты, дорогие наши друзья! В этот Новый год хочется от всей души поблагодарить Вас за внимание к нам, интерес к тому, что мы делаем и, конечно, за Ваше бесконечное доверие! Поздравляем Вас с этим волшебным праздником и желаем Вам процветания в делах, благополучия в личной жизни и успешного завершения всех начатых дел! В связи с этим хотим Вас предупредить, что наш обменный сервис не будет работать с 18:00 31 декабря до 16:00 1 января 2024 года.</p>
+                    <p class="date">23.12.2023</p>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-4">
+                <div class="card" style="padding-top: 35px; padding-bottom: 42px; margin-bottom: 40px;">
+                    <p style="font-size: 19px; font-weight: 600; color: #383838;">Готовы совершить обмен?</p>
+                    <p style="font-size: 14px; color: #8b8b8b; margin-bottom: 30px;">WaveSwap готов предложить одни из самых выгодных курсов для обмена во всем СНГ</p>
+                    <button class="card-button" onclick="window.location='/'">Создать заявку</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="d-flex justify-content-between">
+                    <div style="width: 65%;">
+                        <div class="d-flex justify-content-start">
+                            <div
+                                style="width: 36px; height: 36px; position: relative; background: #0d6efd; border-radius: 6px;">
+                                <img src="/icons/logo.svg"
+                                    style="width: 22px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                            </div>
+                            <p class="align-self-center footer-title">WaveSwap</p>
+
+                        </div>
+                        <p class="footer-copyright">Сервис качественных и быстрых обменов<br>
+                            Все права защищены. Copyright © waveswap.net 2021-2024</p>
+                    </div>
+
+                    <div class="d-flex flex-column">
+                        <p class="d-inline-flex footer-link" style="margin-top: 10px;"><a href="/news">Новости</a></p>
+                        <p class="d-inline-flex footer-link"><a href="/partners">Партнерам</a></p>
+                        <p class="d-inline-flex footer-link"><a href="">Авторизация</a></p>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <p class="d-inline-flex footer-link" style="margin-top: 10px;"><a href="/rules">Правила
+                                обмена</a></p>
+                        <p class="d-inline-flex footer-link"><a href="/help">Поддержка</a></p>
+                        <p class="d-inline-flex footer-link"><a href="/contacts">Контакты</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+</body>
+
+</html>
