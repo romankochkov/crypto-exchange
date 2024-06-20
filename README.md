@@ -17,5 +17,5 @@ npm install
 ```
 ## Launch of the project
 ```bash
-node index.js
+npm run dev
 ```
