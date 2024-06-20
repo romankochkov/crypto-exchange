@@ -367,9 +367,11 @@ const PORT = process.env.PORT || 80;
 app.listen(PORT, () => {
     const invoicesPath = path.join(__dirname, 'invoices');
 
-    if (!fs.existsSync(invoicesPath)){
+    if (!fs.existsSync(invoicesPath)) {
         fs.mkdirSync(invoicesPath);
     }
 
-    console.log(`Сервер запущен на порту ${PORT}`);
+    console.log(`\n--------------- RUNNING ---------------`);
+    console.log(`${new Date()}`);
+    console.log(`---------------------------------------\n`);
 });
